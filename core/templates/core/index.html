@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Arya — Web Developer & Business Tool Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,400;0,500;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --surface: #111111;
+    --border: #1e1e1e;
+    --accent: #e8ff47;
+    --accent2: #ff6b35;
+    --text: #f0f0f0;
+    --muted: #666;
+    --mono: 'DM Mono', monospace;
+    --display: 'Syne', sans-serif;
+    --body: 'DM Sans', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NOISE */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 48px;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease;
+  }
+  nav.scrolled {
+    border-bottom: 1px solid var(--border);
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(20px);
+  }
+  .nav-logo {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: 1.1rem;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--muted);
+    text-decoration: none;
+    letter-spacing: 0.05em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    color: var(--bg) !important;
+    background: var(--accent);
+    padding: 8px 18px;
+    border-radius: 2px;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── HERO ── */
+  /*
+    FIX: Added padding-top so hero content never slides behind the fixed nav.
+    The nav is ~66px tall; 120px gives breathing room at all font sizes.
+  */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 120px 48px 88px;      /* ← top padding added */
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* watermark sits BEHIND everything */
+  .hero-bg-text {
+    position: absolute;
+    top: 58%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(100px, 20vw, 280px);
+    color: transparent;
+    -webkit-text-stroke: 1px #1a1a1a;
+    white-space: nowrap;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.05em;
+    z-index: 0;
+    animation: drift 20s ease-in-out infinite;
+  }
+  @keyframes drift {
+    0%,100% { transform: translate(-50%,-50%) translateX(0); }
+    50%      { transform: translate(-50%,-50%) translateX(20px); }
+  }
+
+  /* all hero text sits ABOVE watermark */
+  .hero-eyebrow, .hero h1, .hero-sub, .hero-actions, .hero-corner {
+    position: relative;
+    z-index: 1;
+  }
+
+  /*
+    REPLACED: The old .hero-tag was a full uppercase mono pill —
+    very "AI template". Now it's a small inline note with a left accent
+    rule, sitting like a handwritten sticky note above the heading.
+  */
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero-eyebrow-rule {
+    width: 28px;
+    height: 1px;
+    background: var(--accent);
+    flex-shrink: 0;
+  }
+  .hero-eyebrow span {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: #888;
+    letter-spacing: 0.04em;
+  }
+
+  .hero h1 {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(42px, 7vw, 96px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    max-width: 900px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.4s forwards;
+  }
+  .hero h1 em { font-style: italic; font-weight: 400; color: var(--muted); }
+  .hero h1 .highlight { color: var(--accent); }
+
+  .hero-sub {
+    margin-top: 32px;
+    max-width: 520px;
+    font-size: 1.05rem;
+    color: #888;
+    font-weight: 300;
+    line-height: 1.7;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.6s forwards;
+  }
+  .hero-actions {
+    margin-top: 40px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.8s forwards;
+  }
+
+  /*
+    REPLACED: The old vertical "scroll" with animated line was the single
+    biggest AI-template giveaway. Swapped for a quiet corner index:
+    a tiny position label (like editorial magazines use bottom-right)
+    that tells you where you are, not what to do.
+  */
+  .hero-corner {
+    position: absolute;
+    bottom: 40px;
+    right: 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.3s forwards;
+  }
+  .hero-corner-index {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: #333;
+    letter-spacing: 0.12em;
+  }
+  .hero-corner-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--accent);
+    opacity: 0.7;
+  }
+
+  /* ── BUTTONS ── */
+  .btn-primary {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    background: var(--accent);
+    color: var(--bg);
+    padding: 14px 28px;
+    border-radius: 2px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(232,255,71,0.25);
+  }
+  .btn-secondary {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    text-decoration: none;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-secondary:hover { color: var(--text); border-color: var(--muted); }
+
+  /* ── MARQUEE ── */
+  .marquee-section {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 18px 0;
+    overflow: hidden;
+    background: var(--surface);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 48px;
+    animation: marquee 25s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .marquee-item::after { content: '·'; color: var(--accent); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── SHARED SECTION ── */
+  section { padding: 120px 48px; }
+
+  /*
+    REPLACED: The old .section-label was a repeat-pattern across every
+    section (accent uppercase mono, 0.18em tracking) — too uniform,
+    too template. Now each section opener uses a small left-rule notation,
+    more like an editorial aside.
+  */
+  .section-aside {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .section-aside-rule { width: 20px; height: 1px; background: var(--border); }
+  .section-aside span {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    color: #555;
+    letter-spacing: 0.06em;
+  }
+
+  .section-title {
+    font-family: var(--display);
+    font-weight: 800;
+    font-size: clamp(32px, 4vw, 54px);
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin-bottom: 64px;
+  }
+  .section-title em { font-style: italic; font-weight: 400; color: var(--muted); }
+
+  /* ── PROJECTS ── */
+  #projects { padding-top: 80px; }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  /*
+   ┌─────────────────────────────────────────────────────────────┐
+   │  HOW TO ADD A PROJECT                                        │
+   │                                                              │
+   │  1. Copy one of the <a class="project-card ..."> blocks      │
+   │     below and paste it inside .projects-grid.                │
+   │                                                              │
+   │  2. Update:                                                  │
+   │     • href="..."          → your project URL / case study    │
+   │     • .project-number     → increment (04 / your-label)      │
+   │     • .project-image-placeholder → swap with <img> or keep  │
+   │       the mockup. For a real screenshot use:                 │
+   │       <img src="your-screenshot.png" style="width:100%;      │
+   │         height:100%;object-fit:cover;">                      │
+   │     • .project-title      → project name                     │
+   │     • .project-desc       → short description                │
+   │     • .tag spans          → your tech/category tags          │
+   │                                                              │
+   │  3. The card-color class sets the placeholder gradient.      │
+   │     Add a new one in the CSS (e.g. .card-newproject) or      │
+   │     just reuse card-invoicehub / card-gym / card-interior.   │
+   │                                                              │
+   │  4. Add class="full-width" to span both columns (like #03).  │
+   └─────────────────────────────────────────────────────────────┘
+  */
+
+  .project-card {
+    background: var(--surface);
+    padding: 48px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+  }
+  .project-card:hover { background: #161616; }
+  .project-card:hover .project-arrow { transform: translate(4px,-4px); }
+  .project-card:hover .project-image-wrap > * { transform: scale(1.03); }
+
+  .project-number {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-bottom: 20px;
+  }
+  .project-image-wrap {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #1a1a1a;
+    border-radius: 4px;
+    margin-bottom: 28px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /*
+    TO USE A REAL SCREENSHOT instead of the mockup placeholder,
+    replace the entire .project-image-placeholder div with:
+
+    <img src="path/to/screenshot.png"
+         alt="Project name screenshot"
+         style="width:100%;height:100%;object-fit:cover;
+                transition:transform 0.6s ease;">
+
+    The hover zoom effect will work automatically on the <img> too.
+  */
+  .project-image-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.6s ease;
+  }
+  .card-invoicehub .project-image-placeholder { background: linear-gradient(135deg,#0d1117,#1a2332); }
+  .card-gym .project-image-placeholder        { background: linear-gradient(135deg,#110d0d,#2a1010); }
+  .card-interior .project-image-placeholder   { background: linear-gradient(135deg,#0d100d,#1a2a1a); }
+
+  /* mini mockups */
+  .mockup {
+    width: 85%; max-width: 340px;
+    background: #0f0f0f;
+    border: 1px solid #222;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .mockup-bar {
+    display: flex; align-items: center; gap: 6px;
+    padding: 8px 12px;
+    background: #0a0a0a;
+    border-bottom: 1px solid #1e1e1e;
+  }
+  .dot { width:7px; height:7px; border-radius:50%; }
+  .dot-r{background:#ff5f57} .dot-y{background:#febc2e} .dot-g{background:#28c840}
+  .code-filename { font-family:var(--mono); font-size:0.68rem; color:var(--muted); margin-left:8px; }
+  .mockup-body { padding:12px; }
+  .mock-stat-row { display:flex; gap:6px; margin-bottom:8px; }
+  .mock-stat {
+    flex:1; background:#111;
+    border:1px solid #1e1e1e; border-radius:3px;
+    padding:6px; text-align:center;
+  }
+  .mock-stat-num { font-family:var(--mono); font-size:0.65rem; color:var(--accent); display:block; }
+  .mock-stat-lbl { font-family:var(--mono); font-size:0.45rem; color:#444; display:block; margin-top:2px; }
+  .mock-table { width:100%; border-collapse:collapse; }
+  .mock-table td { font-family:var(--mono); font-size:0.5rem; color:#444; padding:4px 6px; border-bottom:1px solid #1a1a1a; }
+  .mock-table td:last-child { color:var(--accent); text-align:right; }
+  .mock-row { display:flex; gap:8px; margin-bottom:8px; align-items:center; }
+  .mock-label { font-family:var(--mono); font-size:0.55rem; color:#444; width:60px; flex-shrink:0; }
+  .mock-bar { height:5px; border-radius:2px; background:#1e1e1e; flex:1; position:relative; overflow:hidden; }
+  .mock-bar-fill { position:absolute; left:0;top:0;bottom:0; border-radius:2px; }
+  .fill-accent{background:var(--accent)} .fill-orange{background:var(--accent2)}
+
+  .project-title { font-family:var(--display); font-weight:700; font-size:1.4rem; letter-spacing:-0.02em; margin-bottom:10px; }
+  .project-desc  { font-size:0.9rem; color:#777; line-height:1.6; margin-bottom:20px; font-weight:300; }
+  .project-tags  { display:flex; flex-wrap:wrap; gap:8px; }
+  .tag {
+    font-family:var(--mono); font-size:0.65rem; letter-spacing:0.08em;
+    padding:4px 10px; border:1px solid var(--border); border-radius:2px;
+    color:var(--muted); text-transform:lowercase;
+  }
+  .project-arrow { position:absolute; top:48px; right:48px; font-size:1.2rem; color:var(--muted); transition:transform 0.3s ease; }
+  .project-card.full-width { grid-column: 1 / -1; }
+  .full-width .project-image-wrap { aspect-ratio:21/7; max-height:260px; }
+
+  /* ── SERVICES ── */
+  #services { background: var(--surface); }
+  .services-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; }
+  .service-item {
+    padding:40px 36px;
+    background:var(--bg);
+    border-top:2px solid var(--border);
+    transition:border-color 0.3s;
+  }
+  .service-item:hover { border-color:var(--accent); }
+  .service-num  { font-family:var(--mono); font-size:0.65rem; color:var(--accent); letter-spacing:0.1em; margin-bottom:20px; }
+  .service-name { font-family:var(--display); font-weight:700; font-size:1.1rem; letter-spacing:-0.02em; margin-bottom:12px; }
+  .service-desc { font-size:0.85rem; color:var(--muted); line-height:1.65; font-weight:300; }
+
+  /* ── ABOUT ── */
+  #about { display:grid; grid-template-columns:1fr 1fr; gap:80px; align-items:center; }
+  .about-body { font-size:1rem; color:#888; font-weight:300; line-height:1.8; margin-bottom:16px; }
+  .tech-list  { display:flex; flex-wrap:wrap; gap:8px; margin-top:32px; }
+  .tech-chip  {
+    font-family:var(--mono); font-size:0.72rem; letter-spacing:0.06em;
+    padding:6px 14px; background:var(--surface); border:1px solid var(--border);
+    border-radius:2px; color:var(--text);
+  }
+  .about-stats { display:grid; grid-template-columns:1fr 1fr; gap:2px; margin-top:48px; }
+  .stat-box  { background:var(--surface); padding:28px; }
+  .stat-num  { font-family:var(--display); font-weight:800; font-size:2.4rem; letter-spacing:-0.04em; color:var(--accent); line-height:1; margin-bottom:6px; }
+  .stat-label{ font-family:var(--mono); font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+
+  .code-block { background:var(--surface); border:1px solid var(--border); border-radius:6px; overflow:hidden; font-family:var(--mono); font-size:0.78rem; line-height:1.7; }
+  .code-header{ display:flex; align-items:center; gap:6px; padding:10px 16px; background:#0d0d0d; border-bottom:1px solid var(--border); }
+  .code-body  { padding:20px; }
+  .code-line  { display:block; }
+  .code-comment{color:#555} .code-keyword{color:#c792ea} .code-string{color:var(--accent)} .code-fn{color:#82aaff} .code-var{color:#f78c6c}
+
+  /* ── CONTACT ── */
+  #contact { background:var(--surface); text-align:center; position:relative; overflow:hidden; }
+  #contact::before {
+    content:'HIRE ME';
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    font-family:var(--display); font-weight:800; font-size:clamp(80px,15vw,200px);
+    color:transparent; -webkit-text-stroke:1px #1a1a1a;
+    pointer-events:none; user-select:none; letter-spacing:-0.05em; white-space:nowrap;
+  }
+  .contact-inner { position:relative; z-index:1; max-width:600px; margin:0 auto; }
+  .contact-tagline { font-family:var(--display); font-weight:800; font-size:clamp(36px,5vw,64px); letter-spacing:-0.03em; line-height:1.05; margin-bottom:24px; }
+  .contact-tagline span { color:var(--accent); }
+  .contact-sub { color:var(--muted); font-size:0.95rem; font-weight:300; line-height:1.7; margin-bottom:48px; }
+  .contact-links { display:flex; justify-content:center; gap:16px; flex-wrap:wrap; }
+  .contact-link {
+    font-family:var(--mono); font-size:0.8rem; letter-spacing:0.08em;
+    padding:12px 24px; border:1px solid var(--border); border-radius:2px;
+    color:var(--text); text-decoration:none;
+    transition:background 0.2s, border-color 0.2s;
+  }
+  .contact-link:hover { background:#161616; border-color:#333; }
+  .contact-link.primary { background:var(--accent); border-color:var(--accent); color:var(--bg); }
+  .contact-link.primary:hover { background:#d4eb3d; }
+
+  /* ── FOOTER ── */
+  footer { padding:28px 48px; border-top:1px solid var(--border); display:flex; justify-content:space-between; align-items:center; }
+  footer p { font-family:var(--mono); font-size:0.68rem; color:var(--muted); letter-spacing:0.05em; }
+  footer a  { color:var(--muted); text-decoration:none; }
+  footer a:hover { color:var(--accent); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform:translateY(24px); }
+    to   { opacity:1; transform:translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity:0; }
+    to   { opacity:1; }
+  }
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity:1; transform:translateY(0); }
+
+  /* ── RESPONSIVE ── */
+  @media(max-width:900px){
+    nav { padding:16px 24px; }
+    .nav-links { display:none; }
+    .hero { padding:100px 24px 60px; }
+    section { padding:80px 24px; }
+    .projects-grid { grid-template-columns:1fr; }
+    .project-card.full-width { grid-column:auto; }
+    .services-grid { grid-template-columns:1fr; }
+    #about { grid-template-columns:1fr; gap:40px; }
+    footer { padding:20px 24px; flex-direction:column; gap:12px; text-align:center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">arya<span>.</span>dev</a>
+  <ul class="nav-links">
+    <li><a href="#projects">projects</a></li>
+    <li><a href="#services">services</a></li>
+    <li><a href="#about">about</a></li>
+    <li><a href="#contact" class="nav-cta">let's work →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">BUILDER</div>
+
+  <!--
+    REPLACED hero-tag (uppercase pill) → editorial left-rule eyebrow.
+    Feels like a byline, not a generated label.
+  -->
+  <div class="hero-eyebrow">
+    <div class="hero-eyebrow-rule"></div>
+    <span>available for freelance &nbsp;·&nbsp; web apps &nbsp;·&nbsp; business tools</span>
+  </div>
+
+  <h1>
+    I build <span class="highlight">tools</span><br>
+    <em>that work for</em><br>
+    your business.
+  </h1>
+  <p class="hero-sub">
+    Custom web applications, invoicing systems, inventory tools, and business websites — built fast, deployed live, and designed around how you actually work.
+  </p>
+  <div class="hero-actions">
+    <a href="#projects" class="btn-primary">see my work →</a>
+    <a href="#contact" class="btn-secondary">get in touch</a>
+  </div>
+
+  <!--
+    REPLACED the vertical "scroll" text + animated line (biggest AI tell)
+    → a quiet corner index marker. No instruction, no animation theatre.
+    Just a small editorial position note, like magazine footers use.
+  -->
+  <div class="hero-corner">
+    <span class="hero-corner-index">01 / intro</span>
+    <div class="hero-corner-dot"></div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <span class="marquee-item">Web Applications</span>
+    <span class="marquee-item">Business Tools</span>
+    <span class="marquee-item">Automation</span>
+    <span class="marquee-item">API Design</span>
+    <span class="marquee-item">Database Architecture</span>
+    <span class="marquee-item">Backend Systems</span>
+    <span class="marquee-item">Custom Dashboards</span>
+    <span class="marquee-item">Fast Delivery</span>
+    <span class="marquee-item">Invoice & Billing</span>
+    <span class="marquee-item">Inventory Systems</span>
+    <span class="marquee-item">Client Portals</span>
+    <span class="marquee-item">Deployment & Hosting</span>
+    <span class="marquee-item">Web Applications</span>
+    <span class="marquee-item">Business Tools</span>
+    <span class="marquee-item">Automation</span>
+    <span class="marquee-item">API Design</span>
+    <span class="marquee-item">Database Architecture</span>
+    <span class="marquee-item">Backend Systems</span>
+    <span class="marquee-item">Custom Dashboards</span>
+    <span class="marquee-item">Fast Delivery</span>
+    <span class="marquee-item">Invoice & Billing</span>
+    <span class="marquee-item">Inventory Systems</span>
+    <span class="marquee-item">Client Portals</span>
+    <span class="marquee-item">Deployment & Hosting</span>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <!-- REPLACED .section-label → .section-aside (left-rule notation, less template) -->
+  <div class="section-aside reveal"><div class="section-aside-rule"></div><span>selected work</span></div>
+  <div class="section-title reveal">Things I've <em>built</em><br>that are live.</div>
+
+  <div class="projects-grid">
+
+    <!--
+    ╔══════════════════════════════════════════════════════════╗
+    ║  PROJECT CARD #01 — InvoiceHub                           ║
+    ║  To link to your live site: change href="#" to your URL  ║
+    ║  To use a screenshot: swap .project-image-placeholder    ║
+    ║  with <img src="invoicehub-screenshot.png" ...>          ║
+    ╚══════════════════════════════════════════════════════════╝
+    -->
+    <a href="#" class="project-card card-invoicehub reveal" target="_blank" rel="noopener noreferrer">
+      <div class="project-number">01 / invoice management</div>
+      <div class="project-image-wrap">
+        <div class="project-image-placeholder">
+          <div class="mockup">
+            <div class="mockup-bar">
+              <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+              <span class="code-filename">invoicehub — dashboard</span>
+            </div>
+            <div class="mockup-body">
+              <div class="mock-stat-row">
+                <div class="mock-stat"><span class="mock-stat-num">₹2.4L</span><span class="mock-stat-lbl">Total Billed</span></div>
+                <div class="mock-stat"><span class="mock-stat-num">18</span><span class="mock-stat-lbl">Clients</span></div>
+                <div class="mock-stat"><span class="mock-stat-num">94%</span><span class="mock-stat-lbl">Paid</span></div>
+              </div>
+              <table class="mock-table">
+                <tr><td>INV-004</td><td>Sharma Traders</td><td>₹12,500</td></tr>
+                <tr><td>INV-003</td><td>Rathi Medicals</td><td>₹8,200</td></tr>
+                <tr><td>INV-002</td><td>Krishna Gym</td><td>₹5,000</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="project-title">InvoiceHub</div>
+      <div class="project-desc">Full invoice generation and management system with client accounts, inventory tracking, and payment status — built for small businesses replacing Excel.</div>
+      <div class="project-tags">
+        <span class="tag">invoice management</span>
+        <span class="tag">client accounts</span>
+        <span class="tag">inventory</span>
+        <span class="tag">dashboard</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+
+    <!--
+    ╔══════════════════════════════════════════════════════════╗
+    ║  PROJECT CARD #02 — Gym Site                             ║
+    ╚══════════════════════════════════════════════════════════╝
+    -->
+    <a href="https://gym-ova0.onrender.com/" class="project-card card-gym reveal" target="_blank" rel="noopener noreferrer">
+      <div class="project-number">02 / gym website</div>
+      <div class="project-image-wrap">
+        <div class="project-image-placeholder">
+          <div class="mockup">
+            <div class="mockup-bar">
+              <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+              <span class="code-filename">gym site — members</span>
+            </div>
+            <div class="mockup-body">
+              <div class="mock-stat-row">
+                <div class="mock-stat"><span class="mock-stat-num" style="color:var(--accent2)">142</span><span class="mock-stat-lbl">Members</span></div>
+                <div class="mock-stat"><span class="mock-stat-num" style="color:var(--accent2)">32</span><span class="mock-stat-lbl">Active Today</span></div>
+              </div>
+              <div class="mock-row"><span class="mock-label">Strength</span><div class="mock-bar"><div class="mock-bar-fill fill-orange" style="width:80%"></div></div></div>
+              <div class="mock-row"><span class="mock-label">Cardio</span><div class="mock-bar"><div class="mock-bar-fill fill-orange" style="width:60%"></div></div></div>
+              <div class="mock-row"><span class="mock-label">Yoga</span><div class="mock-bar"><div class="mock-bar-fill fill-orange" style="width:45%"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="project-title">Gym Management Site</div>
+      <div class="project-desc">A gym website with member management, attendance tracking, and a clean public-facing landing page. Deployed and live with a real database backend.</div>
+      <div class="project-tags">
+        <span class="tag">member management</span>
+        <span class="tag">attendance</span>
+        <span class="tag">landing page</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+
+    <!--
+    ╔══════════════════════════════════════════════════════════╗
+    ║  PROJECT CARD #03 — Interior Designer (full-width)       ║
+    ║  full-width = spans both columns. Remove that class to   ║
+    ║  make it a regular half-width card.                      ║
+    ╚══════════════════════════════════════════════════════════╝
+    -->
+    <a href="https://interiordesigner-lrfw.onrender.com/" class="project-card card-interior full-width reveal" target="_blank" rel="noopener noreferrer">
+      <div class="project-number">03 / portfolio website</div>
+      <div class="project-image-wrap">
+        <div class="project-image-placeholder">
+          <div class="mockup" style="max-width:480px">
+            <div class="mockup-bar">
+              <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+              <span class="code-filename">interior designer — portfolio</span>
+            </div>
+            <div class="mockup-body" style="display:flex;gap:10px">
+              <div style="flex:1">
+                <div style="background:#1a2a1a;height:60px;border-radius:3px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.55rem;color:#3a5a3a;">living room</div>
+                <div style="background:#152015;height:40px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.55rem;color:#3a5a3a;">bedroom</div>
+              </div>
+              <div style="flex:1">
+                <div style="background:#1a2a1a;height:40px;border-radius:3px;margin-bottom:8px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.55rem;color:#3a5a3a;">kitchen</div>
+                <div style="background:#152015;height:60px;border-radius:3px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.55rem;color:#3a5a3a;">office</div>
+              </div>
+              <div style="flex:0.6;display:flex;flex-direction:column;gap:8px;justify-content:center">
+                <div style="font-family:var(--mono);font-size:0.5rem;color:#555;">Portfolio</div>
+                <div style="font-family:var(--mono);font-size:0.7rem;color:#4a8a4a;font-weight:600">12 Projects</div>
+                <div style="font-family:var(--mono);font-size:0.5rem;color:#555;margin-top:4px">Contact form ✓</div>
+                <div style="font-family:var(--mono);font-size:0.5rem;color:#555">Gallery ✓</div>
+                <div style="font-family:var(--mono);font-size:0.5rem;color:#555">Services ✓</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="project-title">Interior Designer Portfolio</div>
+      <div class="project-desc">A full client-facing portfolio site for an interior designer — with project gallery, services, and contact form. Clean, image-forward design built to convert visitors into inquiries.</div>
+      <div class="project-tags">
+        <span class="tag">portfolio</span>
+        <span class="tag">gallery</span>
+        <span class="tag">contact form</span>
+        <span class="tag">live deployment</span>
+      </div>
+      <span class="project-arrow">↗</span>
+    </a>
+
+    <!--
+    ╔══════════════════════════════════════════════════════════╗
+    ║  ADD MORE PROJECTS HERE — copy this template block:      ║
+    ║                                                          ║
+    ║  <a href="YOUR_LIVE_URL" class="project-card card-invoicehub reveal">
+    ║    <div class="project-number">04 / your-label</div>     ║
+    ║    <div class="project-image-wrap">                      ║
+    ║      Option A: real screenshot                 ║
+    ║      <img src="screenshot.png"                           ║
+    ║           alt="Project name"                             ║
+    ║           style="width:100%;height:100%;object-fit:cover;transition:transform 0.6s ease;">
+    ║       Option B: keep placeholder div from above -->      
+        <!--</div>                                            ║
+    ║    <div class="project-title">Your Project Name</div>    ║
+    ║    <div class="project-desc">Description here.</div>     ║
+    ║    <div class="project-tags">                            ║
+    ║      <span class="tag">tag one</span>                    ║
+    ║      <span class="tag">tag two</span>                    ║
+    ║    </div>                                                ║
+    ║    <span class="project-arrow">↗</span>                  ║
+    ║  </a>                                                    ║
+    ╚══════════════════════════════════════════════════════════╝
+    -->
+
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="section-aside reveal"><div class="section-aside-rule"></div><span>what i build</span></div>
+  <div class="section-title reveal">Every tool, built<br><em>from scratch</em> for you.</div>
+
+  <div class="services-grid">
+    <div class="service-item reveal">
+      <div class="service-num">01</div>
+      <div class="service-name">Business Management Tools</div>
+      <div class="service-desc">Invoice generators, inventory systems, client account managers, billing dashboards — built to replace your spreadsheets with something that actually works.</div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-num">02</div>
+      <div class="service-name">Business Websites</div>
+      <div class="service-desc">Professional websites for gyms, clinics, restaurants, retail shops, consultants — fast, mobile-friendly, and easy to update. Deployed live in days.</div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-num">03</div>
+      <div class="service-name">Portfolio Sites</div>
+      <div class="service-desc">For interior designers, architects, photographers, and other professionals who need a site that shows their work beautifully and brings in clients.</div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-num">04</div>
+      <div class="service-name">Custom Web Applications</div>
+      <div class="service-desc">Have a specific idea that doesn't fit a template? I'll scope it, build it, and deploy it. Full custom from scratch — tell me what you need.</div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-num">05</div>
+      <div class="service-name">Deployment & Hosting Setup</div>
+      <div class="service-desc">Already have a project but struggling to get it live? I'll handle deployment, database setup, and make sure everything stays running reliably.</div>
+    </div>
+    <div class="service-item reveal">
+      <div class="service-num">06</div>
+      <div class="service-name">Ongoing Maintenance</div>
+      <div class="service-desc">Monthly retainers for bug fixes, new features, and keeping your site updated. Think of it as having a developer on call without hiring one full-time.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-left reveal">
+    <div class="section-aside" style="margin-bottom:20px"><div class="section-aside-rule"></div><span>about me</span></div>
+    <div class="section-title" style="margin-bottom:32px">Self-taught.<br><em>Shipped things.</em><br>Open for work.</div>
+    <p class="about-body">I come from a commerce background and taught myself everything I needed to build real products — no bootcamp, no CS degree. Just building things until they worked.</p>
+    <p class="about-body">I've delivered gym sites, interior designer portfolios, and invoice management tools that real businesses are using right now. I know how to scope, build, and deliver.</p>
+
+    <div class="tech-list">
+      <span class="tech-chip">Web Applications</span>
+      <span class="tech-chip">Business Automation</span>
+      <span class="tech-chip">REST APIs</span>
+      <span class="tech-chip">Database Design</span>
+      <span class="tech-chip">Backend Systems</span>
+      <span class="tech-chip">Admin Dashboards</span>
+      <span class="tech-chip">Custom Workflows</span>
+      <span class="tech-chip">Fast Deployment</span>
+      <span class="tech-chip">Responsive UI</span>
+      <span class="tech-chip">Ongoing Support</span>
+    </div>
+
+    <div class="about-stats">
+      <div class="stat-box">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Live Projects</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">₹100K</div>
+        <div class="stat-label">First paid deal</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">6mo</div>
+        <div class="stat-label">Zero to delivery</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Problems I can solve</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-right reveal">
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        <span class="code-filename">developer.py</span>
+      </div>
+      <div class="code-body">
+        <span class="code-line"><span class="code-comment"># What I bring to your project</span></span>
+        <span class="code-line">&nbsp;</span>
+        <span class="code-line"><span class="code-keyword">class</span> <span class="code-fn">Arya</span>:</span>
+        <span class="code-line">    role     = <span class="code-string">"Web Developer & Builder"</span></span>
+        <span class="code-line">    location = <span class="code-string">"India"</span></span>
+        <span class="code-line">    available = <span class="code-keyword">True</span></span>
+        <span class="code-line">&nbsp;</span>
+        <span class="code-line">    can_build = [</span>
+        <span class="code-line">        <span class="code-string">"Invoicing & billing tools"</span>,</span>
+        <span class="code-line">        <span class="code-string">"Inventory management"</span>,</span>
+        <span class="code-line">        <span class="code-string">"Business websites"</span>,</span>
+        <span class="code-line">        <span class="code-string">"Custom web applications"</span>,</span>
+        <span class="code-line">        <span class="code-string">"Anything you describe"</span>,</span>
+        <span class="code-line">    ]</span>
+        <span class="code-line">&nbsp;</span>
+        <span class="code-line">    <span class="code-keyword">def</span> <span class="code-fn">start_project</span>(<span class="code-var">self</span>, your_idea):</span>
+        <span class="code-line">        <span class="code-keyword">return</span> <span class="code-fn">scope</span>() + <span class="code-fn">build</span>() + <span class="code-fn">deploy</span>()</span>
+        <span class="code-line">&nbsp;</span>
+        <span class="code-line"><span class="code-comment"># → Let's talk about your project</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="section-aside reveal" style="margin-bottom:24px;justify-content:center"><div class="section-aside-rule"></div><span>let's work together</span></div>
+    <div class="contact-tagline reveal">Have a project<br>in <span>mind?</span></div>
+    <p class="contact-sub reveal">I'm open to freelance projects, long-term collaborations, and new ideas. If you need a business tool, a website, or something completely custom — let's talk.</p>
+    <div class="contact-links reveal">
+      <a href="mailto:your@email.com" class="contact-link primary">email me →</a>
+      <a href="https://wa.me/91XXXXXXXXXX" class="contact-link">whatsapp</a>
+      <a href="https://github.com/yourusername" class="contact-link">github</a>
+      <a href="https://linkedin.com/in/yourprofile" class="contact-link">linkedin</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2025 Arya — Web Developer, India</p>
+  <p>Designed & built by me · <a href="https://render.com">Deployed on Render</a></p>
+</footer>
+
+<script>
+  // Nav scroll
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 50);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

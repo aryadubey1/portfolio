@@ -1,4 +1,16 @@
-echo "==> Creating or updating superuser"
+#!/usr/bin/env bash
+set -e
+
+echo "==> Installing dependencies"
+pip install -r requirements.txt          # ← must be FIRST
+
+echo "==> Collecting static files"
+python manage.py collectstatic --noinput
+
+echo "==> Running migrations"
+python manage.py migrate
+
+echo "==> Creating or updating superuser"   # ← must be AFTER pip install
 python manage.py shell << 'EOF'
 import os
 from django.contrib.auth import get_user_model
@@ -21,3 +33,5 @@ else:
     user.save()
     print(f"Superuser '{username}' {'created' if created else 'updated'} successfully")
 EOF
+
+echo "==> Build complete"

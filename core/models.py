@@ -18,3 +18,17 @@ class Project(models.Model):
 
     def tag_list(self):
         return [t.strip() for t in self.tags.split(',') if t.strip()]
+
+
+class ContactMessage(models.Model):
+    name       = models.CharField(max_length=120)
+    email      = models.EmailField()
+    message    = models.TextField()
+    sent_at    = models.DateTimeField(auto_now_add=True)
+    notified   = models.BooleanField(default=False, help_text="True if Telegram delivery succeeded")
+
+    class Meta:
+        ordering = ['-sent_at']
+
+    def __str__(self):
+        return f"{self.name} — {self.sent_at:%d %b %Y %H:%M}"

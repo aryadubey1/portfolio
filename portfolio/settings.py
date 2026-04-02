@@ -1,14 +1,22 @@
 from pathlib import Path
 import os
 import dj_database_url
+import ssl
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+_env_file = BASE_DIR / '.env'
+if _env_file.exists():
+    for line in _env_file.read_text().splitlines():
+        line = line.strip()
+        if line and not line.startswith('#') and '=' in line:
+            key, _, val = line.partition('=')
+            os.environ.setdefault(key.strip(), val.strip().strip('"').strip("'"))
 
 SECRET_KEY = os.environ.get('SECRET_KEY', 'change-me-in-production')
 
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
 
-ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 INSTALLED_APPS = [
     'whitenoise.runserver_nostatic',
@@ -59,6 +67,8 @@ DATABASES = {
         conn_max_age=600,
     )
 }
+if 'DATABASE_URL' in os.environ:
+    DATABASES['default']['OPTIONS'] = {'sslmode': 'require'}
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},

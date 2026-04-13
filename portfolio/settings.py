@@ -98,7 +98,6 @@ STATIC_ROOT   = BASE_DIR / 'staticfiles'
 # Only include static/ in STATICFILES_DIRS if the folder actually exists
 _static_dir = BASE_DIR / 'static'
 STATICFILES_DIRS = [_static_dir] if _static_dir.exists() else []
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 

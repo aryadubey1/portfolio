@@ -561,13 +561,6 @@
           {# ── Cover image ── #}
           <div class="proj-card-img">
             {% if project.image %}
-              {#
-                Cloudinary delivers the image; pass w_800,c_fill,g_auto
-                via the URL transformer for responsive optimisation.
-                If you use django-cloudinary-storage you can call
-                project.image.url directly — it already contains the
-                transformation params you set in CloudinaryField.
-              #}
               <img src="{{ project.image.url }}"
                   alt="{{ project.title }}"
                   loading="lazy" />

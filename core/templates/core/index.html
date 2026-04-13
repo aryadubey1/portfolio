@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 
   <!-- Tailwind CDN (swap for compiled build before deploying) -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -33,6 +34,149 @@
   </script>
 
   <style>
+    /* ── Project card grid ── */
+  .project-card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--bg-line);
+    border: 1px solid var(--bg-line);
+  }
+  @media (min-width: 640px) {
+    .project-card-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 1024px) {
+    .project-card-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+ 
+  /* ── Individual card ── */
+  .proj-card {
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    will-change: transform;
+    transition: transform 0.08s ease-out, box-shadow 0.2s ease;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+  }
+  .proj-card:hover {
+    z-index: 10;
+    box-shadow:
+      0 20px 60px -10px rgba(17,17,16,0.18),
+      0 8px 24px -8px rgba(17,17,16,0.12);
+  }
+ 
+  /* ── Card image area ── */
+  .proj-card-img {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg-tag);
+    flex-shrink: 0;
+  }
+  .proj-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .proj-card:hover .proj-card-img img {
+    transform: scale(1.04);
+  }
+  /* placeholder gradient when no image */
+  .proj-card-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .proj-card-img-placeholder svg {
+    opacity: 0.18;
+    width: 40px;
+    height: 40px;
+  }
+ 
+  /* placeholder color variants */
+  .proj-placeholder-0 { background: linear-gradient(135deg, #f1efe8 0%, #e8e4d8 100%); }
+  .proj-placeholder-1 { background: linear-gradient(135deg, #faeeda 0%, #f5dfa8 100%); }
+  .proj-placeholder-2 { background: linear-gradient(135deg, #e8edf1 0%, #d4dde6 100%); }
+  .proj-placeholder-3 { background: linear-gradient(135deg, #ede8f0 0%, #ddd4e6 100%); }
+  .proj-placeholder-4 { background: linear-gradient(135deg, #e8f0e8 0%, #d4e6d4 100%); }
+  .proj-placeholder-5 { background: linear-gradient(135deg, #f0e8e8 0%, #e6d4d4 100%); }
+ 
+  html.dark .proj-placeholder-0 { background: linear-gradient(135deg, #1c1c1a 0%, #222220 100%); }
+  html.dark .proj-placeholder-1 { background: linear-gradient(135deg, #2d1f06 0%, #3d2a08 100%); }
+  html.dark .proj-placeholder-2 { background: linear-gradient(135deg, #0e1a22 0%, #14232e 100%); }
+  html.dark .proj-placeholder-3 { background: linear-gradient(135deg, #1a1022 0%, #22142e 100%); }
+  html.dark .proj-placeholder-4 { background: linear-gradient(135deg, #0e1a0e 0%, #14221a 100%); }
+  html.dark .proj-placeholder-5 { background: linear-gradient(135deg, #1a0e0e 0%, #221414 100%); }
+ 
+  /* ── Card body ── */
+  .proj-card-body {
+    padding: 20px 22px 22px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    border-top: 0.5px solid var(--bg-line);
+  }
+  .proj-card-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  .proj-card-num {
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-family: 'Inter', sans-serif;
+    transition: color 0.2s;
+  }
+  .proj-card-arrow {
+    font-size: 14px;
+    color: var(--ink-faint);
+    transition: color 0.2s ease, transform 0.2s ease;
+    line-height: 1;
+  }
+  .proj-card:hover .proj-card-num   { color: var(--amber); }
+  .proj-card:hover .proj-card-arrow { color: var(--amber); transform: translate(3px, -3px); }
+ 
+  .proj-card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--ink);
+    margin: 0 0 8px;
+    line-height: 1.25;
+    transition: color 0.2s;
+  }
+  .proj-card:hover .proj-card-title { color: var(--amber); }
+ 
+  .proj-card-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--ink-muted);
+    margin: 0 0 14px;
+    flex: 1;
+  }
+  .proj-card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    margin-top: auto;
+  }
+ 
+  /* ── Tilt reset on touch devices ── */
+  @media (hover: none) {
+    .proj-card { transform: none !important; transition: none; }
+  }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body { background: #FAFAF7; color: #111110; font-family: 'Inter', sans-serif; overflow-x: hidden; }
@@ -196,6 +340,55 @@
 
     #hero { min-height: 75vh; }
     @media (min-width: 768px) { #hero { min-height: 100vh; } }
+    /* ── Tech-stack icon row ── */
+    .proj-tech-icons {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+  
+    /* Devicon glyph wrapper */
+    .proj-tech-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 4px;
+      background: var(--bg-tag);
+      border: 0.5px solid var(--bg-line);
+      transition: border-color 0.2s, transform 0.2s;
+      cursor: default;
+    }
+    .proj-tech-icon i {
+      font-size: 15px;
+      line-height: 1;
+    }
+    .proj-card:hover .proj-tech-icon {
+      border-color: var(--amber);
+      transform: translateY(-1px);
+    }
+  
+    /* Text badge fallback (Render, Cloudinary, Stripe, Telegram) */
+    .proj-tech-badge {
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 2px 7px;
+      border-radius: 3px;
+      background: var(--bg-tag);
+      border: 0.5px solid var(--bg-line);
+      color: var(--ink-muted);
+      transition: border-color 0.2s;
+      cursor: default;
+      white-space: nowrap;
+    }
+    .proj-card:hover .proj-tech-badge {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
   </style>
 </head>
 <body>
@@ -343,41 +536,106 @@
        PROJECTS
   ════════════════════════════════ -->
   <section id="projects" class="max-w-6xl mx-auto px-8 md:px-16 py-20 border-b border-paper-line">
-
+ 
     <div class="section-reveal flex items-baseline justify-between mb-12">
       <p class="text-xs tracking-widest uppercase text-ink-faint">Projects</p>
-      <span class="text-xs tracking-widest uppercase text-ink-faint">{% if projects %}0{{ projects|length }} works{% endif %}</span>
-    </div>
-
-    <div>
-      {% for project in projects %}
-      {% if project.live_url %}
-      <a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer" class="project-row section-reveal grid items-start gap-6 py-8 border-b border-paper-line cursor-pointer no-underline" style="grid-template-columns: 40px 1fr auto; text-decoration:none;">
-      {% else %}
-      <a href="#" class="project-row section-reveal grid items-start gap-6 py-8 border-b border-paper-line cursor-pointer no-underline" style="grid-template-columns: 40px 1fr auto; text-decoration:none;">
+      {% if projects %}
+      <span class="text-xs tracking-widest uppercase text-ink-faint">
+        0{{ projects|length }} works
+      </span>
       {% endif %}
-        <span class="proj-num text-xs text-ink-faint mt-1 transition-colors duration-200">0{{ forloop.counter }}</span>
-
-        <div>
-          <h3 class="proj-title font-serif text-xl font-normal text-ink mb-2 transition-colors duration-200
-                      {% if project.title == 'Lumière' %}italic{% endif %}">
-            {{ project.title }}
-          </h3>
-          <p class="text-sm leading-relaxed text-ink-soft mb-4 max-w-xl">{{ project.description }}</p>
-          <div class="flex flex-wrap gap-2">
-            {% for tag in project.tag_list %}
-            <span class="stack-tag">{{ tag }}</span>
-            {% endfor %}
+    </div>
+  
+    <div class="project-card-grid section-reveal">
+      {% for project in projects %}
+  
+        {% if project.live_url %}
+        <a href="{{ project.live_url }}"
+          target="_blank" rel="noopener noreferrer"
+          class="proj-card"
+          data-tilt>
+        {% else %}
+        <a href="#" class="proj-card" data-tilt>
+        {% endif %}
+  
+          {# ── Cover image ── #}
+          <div class="proj-card-img">
+            {% if project.image %}
+              {#
+                Cloudinary delivers the image; pass w_800,c_fill,g_auto
+                via the URL transformer for responsive optimisation.
+                If you use django-cloudinary-storage you can call
+                project.image.url directly — it already contains the
+                transformation params you set in CloudinaryField.
+              #}
+              <img src="{{ project.image.url }}"
+                  alt="{{ project.title }}"
+                  loading="lazy" />
+            {% else %}
+              {# Coloured placeholder gradient (cycles through 6 variants) #}
+              <div class="proj-card-img-placeholder proj-placeholder-{% cycle '0' '1' '2' '3' '4' '5' %}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
+                  <rect x="3" y="3" width="18" height="18" rx="2"/>
+                  <path d="M3 9h18M9 21V9"/>
+                </svg>
+              </div>
+            {% endif %}
           </div>
-        </div>
-
-        <span class="proj-arrow text-lg text-paper-line mt-1">↗</span>
-      </a>
+  
+          {# ── Card body ── #}
+          <div class="proj-card-body">
+  
+            <div class="proj-card-meta">
+              <span class="proj-card-num">0{{ forloop.counter }}</span>
+              <span class="proj-card-arrow">↗</span>
+            </div>
+  
+            <h3 class="proj-card-title{% if project.title == 'Lumière' %} italic{% endif %}">
+              {{ project.title }}
+            </h3>
+  
+            <p class="proj-card-desc">{{ project.description }}</p>
+  
+            {# ── Tech-stack icon row ── #}
+            {% with stacks=project.tech_stacks.all %}
+            {% if stacks %}
+            <div class="proj-tech-icons" aria-label="Tech stack">
+              {% for stack in stacks %}
+                {% if stack.has_devicon %}
+                  {# Devicon glyph with tooltip #}
+                  <span class="proj-tech-icon" title="{{ stack.label }}">
+                    <i class="{{ stack.devicon_class }}"></i>
+                  </span>
+                {% else %}
+                  {# Text badge fallback for Render, Cloudinary, Stripe, Telegram #}
+                  <span class="proj-tech-badge" title="{{ stack.label }}">
+                    {{ stack.label }}
+                  </span>
+                {% endif %}
+              {% endfor %}
+            </div>
+            {% endif %}
+            {% endwith %}
+  
+            {# ── Tag chips ── #}
+            {% if project.tag_list %}
+            <div class="proj-card-tags">
+              {% for tag in project.tag_list %}
+              <span class="stack-tag">{{ tag }}</span>
+              {% endfor %}
+            </div>
+            {% endif %}
+  
+          </div>{# /proj-card-body #}
+  
+        </a>
       {% empty %}
-      <p class="text-sm text-ink-muted">No projects yet — add them from the admin panel.</p>
+        <p class="text-sm text-ink-muted col-span-full py-8">
+          No projects yet — add them from the admin panel.
+        </p>
       {% endfor %}
     </div>
-
+  
   </section>
 
 
@@ -567,6 +825,44 @@
       }
       formMsg.classList.remove('hidden');
     });
+    // ── 7. 3D card tilt effect ──
+    (function () {
+      const TILT_MAX   = 10;   // max degrees
+      const SCALE      = 1.03; // lift scale
+      const RESET_MS   = 300;
+  
+      function applyTilt(card, e) {
+        const rect   = card.getBoundingClientRect();
+        const cx     = rect.left + rect.width  / 2;
+        const cy     = rect.top  + rect.height / 2;
+        const dx     = (e.clientX - cx) / (rect.width  / 2);
+        const dy     = (e.clientY - cy) / (rect.height / 2);
+        const rotX   = -dy * TILT_MAX;
+        const rotY   =  dx * TILT_MAX;
+        card.style.transition = 'transform 0.08s ease-out, box-shadow 0.2s ease';
+        card.style.transform  = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${SCALE})`;
+      }
+  
+      function resetTilt(card) {
+        card.style.transition = `transform ${RESET_MS}ms cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s ease`;
+        card.style.transform  = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
+      }
+  
+      function initTilt() {
+        document.querySelectorAll('[data-tilt]').forEach(card => {
+          card.addEventListener('mousemove', e => applyTilt(card, e), { passive: true });
+          card.addEventListener('mouseleave', () => resetTilt(card));
+          card.addEventListener('touchstart', () => resetTilt(card), { passive: true });
+        });
+      }
+  
+      // Init after DOM ready (works whether script runs early or late)
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', initTilt);
+      } else {
+        initTilt();
+      }
+    })();
   </script>
 
 </body>

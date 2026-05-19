@@ -2,7 +2,7 @@
 set -e
 
 # Activate virtualenv 
-source /home/ubuntu/aryadubey/.venv/bin/activate   
+source /var/www/aryadubey/.venv/bin/activate   
 
 echo "==> Installing dependencies"
 pip install -r requirements.txt

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -e
 
-# Activate virtualenv (needed on VPS, Render handled this automatically)
-source /home/youruser/portfolio/venv/bin/activate   # ← add this
+# Activate virtualenv 
+source /home/ubuntu/aryadubey/.venv/bin/activate   
 
 echo "==> Installing dependencies"
 pip install -r requirements.txt
@@ -37,8 +37,8 @@ else:
     print(f"Superuser '{username}' {'created' if created else 'updated'} successfully")
 EOF
 
-# Restart gunicorn so changes take effect (Render restarted automatically)
+
 echo "==> Restarting gunicorn"
-sudo systemctl restart gunicorn   # ← add this
+sudo systemctl restart gunicorn   
 
 echo "==> Deploy complete"

@@ -39,6 +39,6 @@ EOF
 
 
 echo "==> Restarting gunicorn"
-sudo systemctl restart gunicorn   
+sudo systemctl restart aryadubey   
 
 echo "==> Deploy complete"

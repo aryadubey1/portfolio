@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 set -e
 
+# Activate virtualenv (needed on VPS, Render handled this automatically)
+source /home/youruser/portfolio/venv/bin/activate   # ← add this
+
 echo "==> Installing dependencies"
-pip install -r requirements.txt          # ← must be FIRST
+pip install -r requirements.txt
 
 echo "==> Collecting static files"
 python manage.py collectstatic --noinput
@@ -10,7 +13,7 @@ python manage.py collectstatic --noinput
 echo "==> Running migrations"
 python manage.py migrate
 
-echo "==> Creating or updating superuser"   # ← must be AFTER pip install
+echo "==> Creating or updating superuser"
 python manage.py shell << 'EOF'
 import os
 from django.contrib.auth import get_user_model
@@ -34,4 +37,8 @@ else:
     print(f"Superuser '{username}' {'created' if created else 'updated'} successfully")
 EOF
 
-echo "==> Build complete"
+# Restart gunicorn so changes take effect (Render restarted automatically)
+echo "==> Restarting gunicorn"
+sudo systemctl restart gunicorn   # ← add this
+
+echo "==> Deploy complete"

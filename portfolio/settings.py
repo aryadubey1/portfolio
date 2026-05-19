@@ -1,7 +1,6 @@
 from pathlib import Path
 import os
 import dj_database_url
-import ssl
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 _env_file = BASE_DIR / '.env'
@@ -62,18 +61,25 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
-# ── Database — Neon PostgreSQL via DATABASE_URL env var ──
+
 DATABASE_URL = os.environ.get('DATABASE_URL', '')
+
 if DATABASE_URL:
     DATABASES = {
         'default': {
             **dj_database_url.parse(DATABASE_URL),
-            'CONN_MAX_AGE': 0,        # ← critical for Neon free tier
+            'CONN_MAX_AGE': 600,        
             'CONN_HEALTH_CHECKS': True,
             'OPTIONS': {
-                'connect_timeout': 10,
-                'sslmode': 'require',  # good practice for Neon
+                'connect_timeout': 10, 
             }
+        }
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
         }
     }
 

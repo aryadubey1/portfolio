@@ -6,861 +6,1133 @@
   <title>Arya Dubey — Product Engineer</title>
   <meta name="description" content="Product engineer building fast, clean software for businesses and startups." />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-
-  <!-- Tailwind CDN (swap for compiled build before deploying) -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-  tailwind.config = {
-    darkMode: 'class',
-    theme: {
-      extend: {
-        colors: {
-          amber: { DEFAULT: '#BA7517', light: '#FAEEDA', mid: '#EF9F27' },
-          ink:   { DEFAULT: '#111110', soft: '#444441', muted: '#888780', faint: '#B4B2A9' },
-          paper: { DEFAULT: '#FAFAF7', line: '#D3D1C7', bg: '#F1EFE8' },
-        },
-        fontFamily: {
-          sans:  ['Inter', 'sans-serif'],
-          serif: ['"Playfair Display"', 'serif'],
-        },
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans:    ['Inter','sans-serif'],
+            display: ['Syne','sans-serif'],
+            mono:    ['"JetBrains Mono"','monospace'],
+          }
+        }
       }
     }
-  }
   </script>
 
   <style>
-    /* ── Project card grid ── */
-  .project-card-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 1px;
-    background: var(--bg-line);
-    border: 1px solid var(--bg-line);
-  }
-  @media (min-width: 640px) {
-    .project-card-grid { grid-template-columns: repeat(2, 1fr); }
-  }
-  @media (min-width: 1024px) {
-    .project-card-grid { grid-template-columns: repeat(3, 1fr); }
-  }
- 
-  /* ── Individual card ── */
-  .proj-card {
-    background: var(--bg);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    transform-style: preserve-3d;
-    will-change: transform;
-    transition: transform 0.08s ease-out, box-shadow 0.2s ease;
-    cursor: pointer;
-    text-decoration: none;
-    color: inherit;
-  }
-  .proj-card:hover {
-    z-index: 10;
-    box-shadow:
-      0 20px 60px -10px rgba(17,17,16,0.18),
-      0 8px 24px -8px rgba(17,17,16,0.12);
-  }
- 
-  /* ── Card image area ── */
-  .proj-card-img {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    position: relative;
-    background: var(--bg-tag);
-    flex-shrink: 0;
-  }
-  .proj-card-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .proj-card:hover .proj-card-img img {
-    transform: scale(1.04);
-  }
-  /* placeholder gradient when no image */
-  .proj-card-img-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .proj-card-img-placeholder svg {
-    opacity: 0.18;
-    width: 40px;
-    height: 40px;
-  }
- 
-  /* placeholder color variants */
-  .proj-placeholder-0 { background: linear-gradient(135deg, #f1efe8 0%, #e8e4d8 100%); }
-  .proj-placeholder-1 { background: linear-gradient(135deg, #faeeda 0%, #f5dfa8 100%); }
-  .proj-placeholder-2 { background: linear-gradient(135deg, #e8edf1 0%, #d4dde6 100%); }
-  .proj-placeholder-3 { background: linear-gradient(135deg, #ede8f0 0%, #ddd4e6 100%); }
-  .proj-placeholder-4 { background: linear-gradient(135deg, #e8f0e8 0%, #d4e6d4 100%); }
-  .proj-placeholder-5 { background: linear-gradient(135deg, #f0e8e8 0%, #e6d4d4 100%); }
- 
-  html.dark .proj-placeholder-0 { background: linear-gradient(135deg, #1c1c1a 0%, #222220 100%); }
-  html.dark .proj-placeholder-1 { background: linear-gradient(135deg, #2d1f06 0%, #3d2a08 100%); }
-  html.dark .proj-placeholder-2 { background: linear-gradient(135deg, #0e1a22 0%, #14232e 100%); }
-  html.dark .proj-placeholder-3 { background: linear-gradient(135deg, #1a1022 0%, #22142e 100%); }
-  html.dark .proj-placeholder-4 { background: linear-gradient(135deg, #0e1a0e 0%, #14221a 100%); }
-  html.dark .proj-placeholder-5 { background: linear-gradient(135deg, #1a0e0e 0%, #221414 100%); }
- 
-  /* ── Card body ── */
-  .proj-card-body {
-    padding: 20px 22px 22px;
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    border-top: 0.5px solid var(--bg-line);
-  }
-  .proj-card-meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 10px;
-  }
-  .proj-card-num {
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--ink-faint);
-    font-family: 'Inter', sans-serif;
-    transition: color 0.2s;
-  }
-  .proj-card-arrow {
-    font-size: 14px;
-    color: var(--ink-faint);
-    transition: color 0.2s ease, transform 0.2s ease;
-    line-height: 1;
-  }
-  .proj-card:hover .proj-card-num   { color: var(--amber); }
-  .proj-card:hover .proj-card-arrow { color: var(--amber); transform: translate(3px, -3px); }
- 
-  .proj-card-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 20px;
-    font-weight: 400;
-    color: var(--ink);
-    margin: 0 0 8px;
-    line-height: 1.25;
-    transition: color 0.2s;
-  }
-  .proj-card:hover .proj-card-title { color: var(--amber); }
- 
-  .proj-card-desc {
-    font-size: 13px;
-    line-height: 1.7;
-    color: var(--ink-muted);
-    margin: 0 0 14px;
-    flex: 1;
-  }
-  .proj-card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    margin-top: auto;
-  }
- 
-  /* ── Tilt reset on touch devices ── */
-  @media (hover: none) {
-    .proj-card { transform: none !important; transition: none; }
-  }
+    /* ─── RESET ─── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
-    body { background: #FAFAF7; color: #111110; font-family: 'Inter', sans-serif; overflow-x: hidden; }
 
-    /* ── Nav hide/show ── */
-    #nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      transform: translateY(-100%);
-      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    #nav.visible { transform: translateY(0); }
-
-    /* ── Hero text animation ── */
-    .reveal-line {
-      display: block; overflow: hidden;
-    }
-    .reveal-line span {
-      display: block;
-      transform: translateY(110%);
-      transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .reveal-line.in span { transform: translateY(0); }
-
-    .fade-up {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-    .fade-up.in { opacity: 1; transform: translateY(0); }
-
-    /* ── Section reveal ── */
-    .section-reveal {
-      opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
-    }
-    .section-reveal.in { opacity: 1; transform: translateY(0); }
-
-    /* ── Project row hover ── */
-    .project-row { transition: background 0.2s ease; }
-    .project-row:hover { background: #F1EFE8; }
-    .project-row:hover .proj-num { color: #BA7517; }
-    .project-row:hover .proj-title { color: #BA7517; }
-    .project-row:hover .proj-arrow { color: #BA7517; transform: translate(3px, -3px); }
-    .proj-arrow { transition: color 0.2s ease, transform 0.2s ease; }
-
-    /* ── Form fields ── */
-    .field-input {
-      width: 100%; background: transparent; border: none;
-      border-bottom: 0.5px solid #B4B2A9; padding: 10px 0;
-      font-size: 15px; font-family: 'Inter', sans-serif;
-      color: #111110; outline: none;
-      transition: border-color 0.2s ease;
-    }
-    .field-input:focus { border-bottom-color: #BA7517; }
-    .field-input::placeholder { color: #B4B2A9; }
-
-    /* ── Send button ── */
-    .send-btn {
-      background: #111110; color: #FAFAF7;
-      font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase;
-      padding: 14px 36px; border: none; cursor: pointer;
-      transition: background 0.2s ease;
-      position: relative; overflow: hidden;
-    }
-    .send-btn:hover { background: #BA7517; }
-    .send-btn:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* ── Scrollbar ── */
-    ::-webkit-scrollbar { width: 4px; }
-    ::-webkit-scrollbar-track { background: #FAFAF7; }
-    ::-webkit-scrollbar-thumb { background: #D3D1C7; border-radius: 2px; }
-
-    /* ── Available bracket ── */
-    .bracket { color: #D3D1C7; font-weight: 300; }
-
-    /* ── Skill tag ── */
-    .skill-tag {
-      font-size: 11px; padding: 4px 11px;
-      border: 0.5px solid #D3D1C7; color: #5F5E5A;
-      letter-spacing: 0.02em; display: inline-block;
-    }
-
-    /* ── Stack tag ── */
-    .stack-tag {
-      font-size: 11px; padding: 3px 10px;
-      background: #F1EFE8; color: #5F5E5A;
-      letter-spacing: 0.03em;
-    }
-
-    /* ── CSS variables ── */
+    /* ─── DESIGN TOKENS ─── */
     :root {
-      --bg:         #FAFAF7;
-      --bg-line:    #D3D1C7;
-      --bg-tag:     #F1EFE8;
-      --ink:        #111110;
-      --ink-soft:   #444441;
-      --ink-muted:  #888780;
-      --ink-faint:  #B4B2A9;
-      --amber:      #BA7517;
-      --amber-lt:   #FAEEDA;
-    }
-    html.dark {
-      --bg:         #0F0F0E;
-      --bg-line:    #2C2C2A;
-      --bg-tag:     #1C1C1A;
-      --ink:        #F5F4F0;
-      --ink-soft:   #B4B2A9;
-      --ink-muted:  #888780;
-      --ink-faint:  #5F5E5A;
-      --amber:      #EF9F27;
-      --amber-lt:   #2D1F06;
-    }
-    html.dark body               { background: var(--bg); color: var(--ink); }
-    html.dark #nav               { background: var(--bg); border-color: var(--bg-line); }
-    html.dark .skill-tag         { border-color: var(--bg-line); color: var(--ink-soft); }
-    html.dark .stack-tag         { background: var(--bg-tag); color: var(--ink-soft); }
-    html.dark .field-input       { color: var(--ink); border-color: var(--ink-faint); }
-    html.dark .field-input::placeholder { color: var(--ink-faint); }
-    html.dark .project-row:hover { background: var(--bg-tag); }
-    html.dark .send-btn          { background: var(--ink); color: var(--bg); }
-    html.dark .send-btn:hover    { background: var(--amber); }
-    html.dark .proj-title        { color: var(--ink); }
-    html.dark .proj-num          { color: var(--ink-faint); }
-    html.dark .proj-arrow        { color: var(--ink-faint); }
-    html.dark .project-row:hover .proj-title { color: var(--amber); }
-    html.dark .project-row:hover .proj-num   { color: var(--amber); }
-    html.dark .project-row:hover .proj-arrow { color: var(--amber); }
-    html.dark .about-text        { color: var(--ink-soft); }
-    html.dark footer span        { color: var(--ink-faint); }
-    html.dark footer a           { color: var(--ink-muted); }
+      /* Accent — morphs per section via JS */
+      --accent:        #00D4FF;
+      --accent-dim:    #00a3c4;
+      --accent-glow:   rgba(0,212,255,0.18);
+      --accent-glow-sm:rgba(0,212,255,0.08);
 
-    /* ── Hamburger ── */
-    .hamburger { display:none; flex-direction:column; justify-content:center; gap:5px; width:32px; height:32px; cursor:pointer; background:none; border:none; padding:0; }
-    .hamburger span { display:block; height:1px; background:var(--ink); transition: transform 0.3s ease, opacity 0.3s ease; }
-    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
-    .hamburger.open span:nth-child(2) { opacity:0; }
-    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+      /* Section accent aliases (set statically for CSS-only fallbacks) */
+      --hero-accent:    #00D4FF;
+      --about-accent:   #A78BFA;
+      --projects-accent:#FBBF24;
+      --contact-accent: #34D399;
 
-    /* ── Mobile overlay menu ── */
-    #mobile-menu {
-      position: fixed; inset: 0; z-index: 99;
-      background: var(--bg);
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px;
+      --void:         #080B10;
+      --void-2:       #0D1117;
+      --void-3:       #111820;
+      --ink:          #E8EDF5;
+      --ink-soft:     #9BA8BC;
+      --ink-muted:    #5A6478;
+      --ink-faint:    #2D3448;
+      --glass:        rgba(255,255,255,0.04);
+      --glass-border: rgba(255,255,255,0.08);
+      --glass-hover:  rgba(255,255,255,0.07);
+      --red-accent:   #FF3366;
+      --sb-w:         52px;
+    }
+
+    body {
+      background: var(--void);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    /* ─── CUSTOM CURSOR ─── */
+    #cursor {
+      position: fixed; width: 10px; height: 10px;
+      background: var(--accent); border-radius: 50%;
+      pointer-events: none; z-index: 9999;
+      transform: translate(-50%,-50%);
+      transition: width .2s, height .2s;
+      mix-blend-mode: screen;
+    }
+    #cursor-ring {
+      position: fixed; width: 36px; height: 36px;
+      border: 1px solid rgba(0,212,255,.4); border-radius: 50%;
+      pointer-events: none; z-index: 9998;
+      transform: translate(-50%,-50%);
+      transition: width .25s, height .25s, border-color .2s;
+    }
+    body:has(a:hover) #cursor,
+    body:has(button:hover) #cursor { width: 16px; height: 16px; }
+    body:has(a:hover) #cursor-ring,
+    body:has(button:hover) #cursor-ring { width: 52px; height: 52px; border-color: var(--accent); }
+    @media (hover:none) { #cursor,#cursor-ring { display:none; } body { cursor:auto; } }
+
+    /* ─── BACKGROUND VIDEO ─── */
+    #bg-video-wrap { position:fixed; inset:0; z-index:0; overflow:hidden; }
+    #bg-video { width:100%; height:100%; object-fit:cover; opacity:.18; filter:saturate(.5) brightness(.4); }
+    #bg-overlay {
+      position:absolute; inset:0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,212,255,.04) 0%, transparent 70%),
+        linear-gradient(to bottom, rgba(8,11,16,.6) 0%, rgba(8,11,16,.85) 60%, rgba(8,11,16,.98) 100%);
+    }
+    #bg-overlay::after {
+      content:''; position:absolute; inset:0;
+      background:repeating-linear-gradient(to bottom, transparent 0px, transparent 3px, rgba(0,0,0,.05) 3px, rgba(0,0,0,.05) 4px);
+      pointer-events:none;
+    }
+
+    /* ─── VSCODE SIDEBAR ─── */
+    #sidebar {
+      position: fixed; left:0; top:0; bottom:0;
+      width: var(--sb-w);
+      background: rgba(8,11,16,.95);
+      border-right: 1px solid var(--glass-border);
+      backdrop-filter: blur(20px);
+      z-index: 200;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 18px 0;
+    }
+
+    .sb-brand {
+      width: 34px; height: 34px;
+      border: 1px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Syne', sans-serif; font-weight: 700; font-size: 15px;
+      color: var(--accent); text-decoration: none;
+      margin-bottom: 28px; flex-shrink: 0;
+      transition: box-shadow .3s;
+    }
+    .sb-brand:hover { box-shadow: 0 0 16px var(--accent-glow); }
+
+    .sb-nav {
+      flex: 1; display: flex; flex-direction: column;
+      align-items: center; gap: 2px;
+    }
+
+    .sb-btn {
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--ink-muted); text-decoration: none;
+      border-left: 2px solid transparent;
+      transition: color .2s, border-color .2s, background .2s;
+      position: relative;
+    }
+    .sb-btn svg { width: 18px; height: 18px; stroke-width: 1.5; }
+    .sb-btn:hover { color: var(--ink); }
+    .sb-btn.active { color: var(--accent); border-left-color: var(--accent); background: rgba(255,255,255,.025); }
+
+    /* Sidebar tooltips */
+    .sb-btn::after {
+      content: attr(data-tip);
+      position: absolute; left: calc(100% + 10px); top: 50%;
+      transform: translateY(-50%);
+      background: var(--void-3); border: 1px solid var(--glass-border);
+      color: var(--ink); font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: .06em; padding: 4px 10px;
+      white-space: nowrap; border-radius: 2px;
       opacity: 0; pointer-events: none;
-      transition: opacity 0.3s ease;
+      transition: opacity .15s; z-index: 300;
     }
-    #mobile-menu.open { opacity: 1; pointer-events: all; }
-    #mobile-menu a { font-family: 'Playfair Display', serif; font-size: 36px; font-weight: 400; color: var(--ink); text-decoration: none; transition: color 0.2s; }
-    #mobile-menu a:hover { color: var(--amber); }
-    #mobile-menu .mob-cta { font-family: 'Inter', sans-serif; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; background: var(--amber); color: var(--amber-lt); padding: 12px 32px; margin-top: 8px; }
+    .sb-btn:hover::after { opacity: 1; }
 
-    /* ── Dark toggle button ── */
-    .dark-toggle { background: none; border: 0.5px solid var(--bg-line); width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--ink-muted); font-size: 14px; transition: border-color 0.2s, color 0.2s; }
-    .dark-toggle:hover { border-color: var(--amber); color: var(--amber); }
-
-    @media (max-width: 768px) {
-      .hamburger { display: flex; }
-      #nav .desktop-links { display: none; }
+    /* Scroll progress in sidebar */
+    .sb-progress {
+      width: 1px; background: var(--glass-border);
+      margin: 12px 0; position: relative; overflow: hidden;
+      flex: 1; max-height: 120px;
+    }
+    .sb-progress-fill {
+      position: absolute; top: 0; left: 0; right: 0;
+      background: var(--accent); height: 0%;
+      transition: height .1s, background .8s;
     }
 
-    #hero { min-height: 75vh; }
-    @media (min-width: 768px) { #hero { min-height: 100vh; } }
-    /* ── Tech-stack icon row ── */
-    .proj-tech-icons {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 12px;
+    /* Social at bottom of sidebar */
+    .sb-socials {
+      display: flex; flex-direction: column;
+      align-items: center; gap: 10px;
+      padding-top: 14px;
+      border-top: 1px solid var(--glass-border);
+      width: 100%;
     }
-  
-    /* Devicon glyph wrapper */
-    .proj-tech-icon {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 26px;
-      height: 26px;
-      border-radius: 4px;
-      background: var(--bg-tag);
-      border: 0.5px solid var(--bg-line);
-      transition: border-color 0.2s, transform 0.2s;
-      cursor: default;
+    .sb-social-link {
+      color: var(--ink-faint); text-decoration: none;
+      display: flex; align-items: center; justify-content: center;
+      width: 28px; height: 28px; transition: color .2s;
     }
-    .proj-tech-icon i {
-      font-size: 15px;
-      line-height: 1;
+    .sb-social-link:hover { color: var(--accent); }
+    .sb-social-link svg { width: 14px; height: 14px; }
+
+    /* Mobile — sidebar becomes bottom bar */
+    @media (max-width: 767px) {
+      :root { --sb-w: 0px; }
+      #sidebar {
+        top: auto; left:0; right:0; bottom:0;
+        width: 100%; height: 52px;
+        flex-direction: row; justify-content: space-around;
+        padding: 0 16px;
+        border-right: none; border-top: 1px solid var(--glass-border);
+      }
+      .sb-brand { margin-bottom: 0; }
+      .sb-nav { flex-direction: row; flex: 0; gap: 0; }
+      .sb-progress, .sb-socials { display: none; }
+      .sb-btn { border-left: none; border-bottom: 2px solid transparent; width:44px; height:44px; }
+      .sb-btn.active { border-left: none; border-bottom-color: var(--accent); }
+      .sb-btn::after { top:auto; bottom:calc(100%+8px); left:50%; transform:translateX(-50%); }
     }
-    .proj-card:hover .proj-tech-icon {
-      border-color: var(--amber);
-      transform: translateY(-1px);
+
+    /* ─── MAIN CONTENT OFFSET ─── */
+    #main-wrap { margin-left: var(--sb-w); position:relative; z-index:10; }
+    @media (max-width:767px) { #main-wrap { margin-left:0; padding-bottom:52px; } }
+
+    /* ─── SECTION AMBIENT TINTS ─── */
+    .section-tint { position:relative; }
+    .section-tint::before {
+      content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+      background: radial-gradient(ellipse 70% 50% at 85% 40%, var(--s-tint,transparent) 0%, transparent 70%);
+      opacity: .5;
     }
-  
-    /* Text badge fallback (Render, Cloudinary, Stripe, Telegram) */
-    .proj-tech-badge {
-      font-size: 9px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      padding: 2px 7px;
-      border-radius: 3px;
-      background: var(--bg-tag);
-      border: 0.5px solid var(--bg-line);
-      color: var(--ink-muted);
-      transition: border-color 0.2s;
-      cursor: default;
-      white-space: nowrap;
+    .section-tint > * { position:relative; z-index:1; }
+    #about    { --s-tint: rgba(167,139,250,.07); }
+    #projects { --s-tint: rgba(251,191,36,.05); }
+    #contact  { --s-tint: rgba(52,211,153,.06); }
+
+    /* ─── TYPOGRAPHY ANIMATIONS ─── */
+    /* Shimmer for headings (each section uses its color) */
+    @keyframes shimmer { 0% { background-position:200% center; } 100% { background-position:-200% center; } }
+
+    .shimmer-text {
+      background: linear-gradient(90deg, var(--ink) 0%, var(--shimmer-color,#00D4FF) 45%, var(--ink) 60%, var(--ink) 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+      animation: shimmer 5s linear infinite;
     }
-    .proj-card:hover .proj-tech-badge {
-      border-color: var(--amber);
-      color: var(--amber);
+
+    /* Per-section shimmer color override */
+    #hero    .shimmer-text { --shimmer-color: #00D4FF; }
+    #about   .shimmer-text { --shimmer-color: #A78BFA; }
+    #projects .shimmer-text { --shimmer-color: #FBBF24; }
+    #contact .shimmer-text { --shimmer-color: #34D399; }
+
+    /* Section label */
+    .sec-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--sec-col, var(--accent)); opacity: .85;
     }
+    .sec-label::before { content: '// '; opacity: .5; }
+
+    /* Per-section label colors */
+    #hero     .sec-label { --sec-col: #00D4FF; }
+    #about    .sec-label { --sec-col: #A78BFA; }
+    #projects .sec-label { --sec-col: #FBBF24; }
+    #contact  .sec-label { --sec-col: #34D399; }
+
+    .cyan-line {
+      width: 40px; height: 1px;
+      background: linear-gradient(to right, var(--sec-col, #00D4FF), transparent);
+      margin-bottom: 2rem;
+    }
+
+    /* ─── GLITCH (hero) ─── */
+    .glitch { position:relative; display:inline-block; }
+    .glitch::before, .glitch::after {
+      content: attr(data-text); position:absolute; inset:0;
+      clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    }
+    .glitch::before { left:2px; color:var(--accent); animation:glitch-top 4s infinite linear; }
+    .glitch::after  { left:-2px; color:var(--red-accent); clip-path:polygon(0 65%,100% 65%,100% 100%,0 100%); animation:glitch-bot 4s infinite linear; }
+    @keyframes glitch-top {
+      0%,90%,100%{transform:translateX(0);opacity:0;}
+      92%{transform:translateX(-3px);opacity:.8;}
+      94%{transform:translateX(2px);opacity:.8;}
+      96%{transform:translateX(0);opacity:0;}
+    }
+    @keyframes glitch-bot {
+      0%,90%,100%{transform:translateX(0);opacity:0;}
+      93%{transform:translateX(3px);opacity:.8;}
+      95%{transform:translateX(-2px);opacity:.8;}
+      97%{transform:translateX(0);opacity:0;}
+    }
+
+    /* ─── TYPED CURSOR BLINK ─── */
+    .typed-cursor {
+      display:inline-block; width:2.5px; height:1em;
+      background:var(--accent); margin-left:3px; vertical-align:middle;
+      animation:blink .85s step-end infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* ─── REVEAL ANIMATIONS ─── */
+    .reveal-line { display:block; overflow:hidden; }
+    .reveal-line span { display:block; transform:translateY(110%); transition:transform .9s cubic-bezier(.16,1,.3,1); }
+    .reveal-line.in span { transform:translateY(0); }
+
+    .fade-up { opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease; }
+    .fade-up.in { opacity:1; transform:translateY(0); }
+
+    .section-reveal { opacity:0; transform:translateY(28px); transition:opacity .75s ease, transform .75s ease; }
+    .section-reveal.in { opacity:1; transform:translateY(0); }
+
+    /* ─── GLOW LINE ─── */
+    .glow-line { height:1px; background:linear-gradient(to right, transparent, var(--accent), transparent); opacity:.22; }
+
+    /* ─── GLASS CARD ─── */
+    .glass-card {
+      background:var(--glass); border:1px solid var(--glass-border);
+      backdrop-filter:blur(12px);
+      transition:border-color .3s, box-shadow .3s, background .3s;
+    }
+    .glass-card:hover {
+      border-color:rgba(0,212,255,.3);
+      box-shadow:0 0 30px var(--accent-glow-sm), inset 0 0 30px rgba(0,212,255,.02);
+      background:var(--glass-hover);
+    }
+
+    /* ─── PROJECT CARDS ─── */
+    .project-card-grid {
+      display:grid; grid-template-columns:1fr; gap:1px;
+      background:var(--glass-border); border:1px solid var(--glass-border);
+    }
+    @media (min-width:640px)  { .project-card-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (min-width:1024px) { .project-card-grid { grid-template-columns:repeat(3,1fr); } }
+
+    .proj-card {
+      background:var(--void-2); display:flex; flex-direction:column;
+      overflow:hidden; position:relative;
+      transform-style:preserve-3d; will-change:transform;
+      transition:transform .08s ease-out, box-shadow .3s, background .3s;
+      cursor:pointer; text-decoration:none; color:inherit;
+    }
+    .proj-card::after {
+      content:''; position:absolute; inset:0;
+      border:1px solid transparent; transition:border-color .3s;
+      pointer-events:none; z-index:2;
+    }
+    .proj-card:hover { background:var(--void-3); box-shadow:0 0 40px rgba(251,191,36,.07); }
+    .proj-card:hover::after { border-color:rgba(251,191,36,.2); }
+
+    .proj-card-img { width:100%; aspect-ratio:16/9; overflow:hidden; position:relative; flex-shrink:0; background:var(--void-3); }
+    .proj-card-img img { width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s cubic-bezier(.16,1,.3,1), filter .4s; filter:saturate(.7) brightness(.9); }
+    .proj-card:hover .proj-card-img img { transform:scale(1.04); filter:saturate(1) brightness(1); }
+
+    .proj-card-img-placeholder { width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:linear-gradient(135deg,#0D1117 0%,#111820 100%); }
+    .proj-card-img-placeholder svg { opacity:.1; width:36px; height:36px; color:#FBBF24; }
+
+    .proj-card-body { padding:20px 22px 22px; display:flex; flex-direction:column; flex:1; border-top:1px solid var(--glass-border); }
+    .proj-card-meta { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+
+    .proj-card-num { font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.15em; text-transform:uppercase; color:var(--ink-faint); transition:color .2s; }
+    .proj-card-arrow { font-size:13px; color:var(--ink-faint); transition:color .2s,transform .2s; line-height:1; }
+    .proj-card:hover .proj-card-num   { color:#FBBF24; }
+    .proj-card:hover .proj-card-arrow { color:#FBBF24; transform:translate(3px,-3px); }
+
+    .proj-card-title { font-family:'Syne',sans-serif; font-size:18px; font-weight:600; color:var(--ink); margin:0 0 8px; line-height:1.25; transition:color .2s; }
+    .proj-card:hover .proj-card-title { color:#FBBF24; }
+    .proj-card-desc  { font-size:13px; line-height:1.7; color:var(--ink-soft); margin:0 0 16px; flex:1; }
+
+    .proj-tech-scroll { display:flex; flex-wrap:nowrap; overflow-x:auto; gap:6px; padding-bottom:4px; margin-bottom:12px; scrollbar-width:none; }
+    .proj-tech-scroll::-webkit-scrollbar { display:none; }
+
+    .tech-pill {
+      display:inline-flex; align-items:center; gap:5px;
+      padding:4px 10px; border-radius:100px;
+      border:1px solid var(--ink-faint);
+      background:rgba(0,0,0,.2); white-space:nowrap;
+      font-family:'JetBrains Mono',monospace; font-size:10px;
+      color:var(--ink-soft); flex-shrink:0;
+      transition:border-color .2s, color .2s, background .2s;
+    }
+    .tech-pill i { font-size:13px; }
+    .proj-card:hover .tech-pill { border-color:rgba(251,191,36,.4); color:#FBBF24; background:rgba(251,191,36,.06); }
+
+    .proj-card-tags { display:flex; flex-wrap:wrap; gap:5px; margin-top:auto; }
+    .stack-tag { font-family:'JetBrains Mono',monospace; font-size:9px; padding:2px 8px; background:var(--void-3); color:var(--ink-muted); border:1px solid var(--ink-faint); letter-spacing:.06em; border-radius:3px; }
+
+    /* ─── TERMINAL WINDOW ─── */
+    .terminal-window { background:rgba(8,11,16,.92); border:1px solid var(--glass-border); border-radius:8px; overflow:hidden; }
+    .terminal-bar { padding:10px 14px; background:var(--void-3); border-bottom:1px solid var(--glass-border); display:flex; align-items:center; gap:7px; }
+    .term-dot { width:10px; height:10px; border-radius:50%; }
+    .term-dot-r { background:#FF5F57; }
+    .term-dot-y { background:#FFBD2E; }
+    .term-dot-g { background:#28C840; }
+    .terminal-body { padding:20px 22px; }
+    .term-line { font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.9; color:var(--ink-soft); }
+    .term-line .prompt { margin-right:8px; user-select:none; }
+    .term-line .cmd    { color:var(--ink); }
+    .term-line .out    { font-style:italic; }
+    .term-line .key    { color:#FFBD2E; }
+    .term-line .val    { color:#28C840; }
+
+    /* ─── SKILL TAGS ─── */
+    .skill-tag {
+      font-family:'JetBrains Mono',monospace; font-size:10px; padding:4px 12px;
+      border:1px solid var(--ink-faint); color:var(--ink-soft);
+      letter-spacing:.04em; background:transparent;
+      transition:border-color .2s, color .2s, box-shadow .2s;
+      display:inline-block; border-radius:3px;
+    }
+    /* About section skill tag hover → purple */
+    #about .skill-tag:hover { border-color:#A78BFA; color:#A78BFA; box-shadow:0 0 8px rgba(167,139,250,.12); }
+
+    /* ─── CONTACT FORM ─── */
+    .field-label {
+      font-family:'JetBrains Mono',monospace; font-size:10px; letter-spacing:.14em;
+      text-transform:uppercase; color:#34D399; opacity:.75; margin-bottom:6px; display:block;
+    }
+    .field-label::before { content:'$ '; opacity:.55; }
+    .field-input {
+      width:100%; background:transparent; border:none; border-bottom:1px solid var(--ink-faint);
+      padding:10px 0; font-size:14px; font-family:'Inter',sans-serif;
+      color:var(--ink); outline:none; transition:border-color .2s;
+    }
+    .field-input:focus { border-bottom-color:#34D399; }
+    .field-input::placeholder { color:var(--ink-muted); font-family:'JetBrains Mono',monospace; font-size:12px; }
+
+    .send-btn {
+      font-family:'JetBrains Mono',monospace; background:transparent;
+      border:1px solid #34D399; color:#34D399; font-size:12px;
+      letter-spacing:.1em; padding:13px 32px; cursor:pointer;
+      transition:background .2s, box-shadow .2s;
+    }
+    .send-btn::before { content:'> '; opacity:.6; }
+    .send-btn:hover { background:rgba(52,211,153,.1); box-shadow:0 0 20px rgba(52,211,153,.2); }
+    .send-btn:disabled { opacity:.4; cursor:not-allowed; }
+
+    /* ─── NAVIGATION LINKS ─── */
+    .nav-link {
+      font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.1em;
+      text-transform:uppercase; color:var(--ink-muted); text-decoration:none;
+      transition:color .2s; position:relative;
+    }
+    .nav-link::after {
+      content:''; position:absolute; bottom:-3px; left:0; right:0; height:1px;
+      background:var(--accent); transform:scaleX(0); transform-origin:left; transition:transform .2s;
+    }
+    .nav-link:hover { color:var(--accent); }
+    .nav-link:hover::after { transform:scaleX(1); }
+
+    /* ─── BUTTONS ─── */
+    .btn-primary {
+      font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.12em;
+      text-transform:uppercase; background:var(--accent); color:var(--void);
+      padding:13px 28px; border:none; cursor:pointer;
+      transition:box-shadow .2s, transform .1s; text-decoration:none; display:inline-block;
+    }
+    .btn-primary:hover { box-shadow:0 0 24px var(--accent-glow), 0 0 48px var(--accent-glow-sm); transform:translateY(-1px); }
+
+    .btn-ghost {
+      font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.12em;
+      text-transform:uppercase; background:transparent; color:var(--ink-soft);
+      padding:13px 28px; border:1px solid var(--ink-faint); cursor:pointer;
+      transition:border-color .2s, color .2s; text-decoration:none; display:inline-block;
+    }
+    .btn-ghost:hover { border-color:var(--accent); color:var(--accent); }
+
+    /* ─── HERO ─── */
+    #hero { min-height:75vh; }
+    @media (min-width:768px) { #hero { min-height:100vh; } }
+
+    /* Hero eyebrow — cycling text */
+    .hero-eyebrow-mono {
+      font-family:'JetBrains Mono',monospace; font-size:11px;
+      letter-spacing:.14em; color:var(--ink-muted);
+      display:flex; align-items:center; gap:2px;
+    }
+    .hero-eyebrow-mono .accent   { color:#00D4FF; }
+    .hero-eyebrow-mono .at       { color:var(--ink-faint); }
+    .hero-eyebrow-mono .suffix   { color:var(--ink-faint); }
+
+    #hero-role {
+      font-family:'JetBrains Mono',monospace; font-size:clamp(12px,1.5vw,15px);
+      letter-spacing:.14em; color:var(--ink-muted);
+      display:flex; align-items:center; gap:8px; margin-top:18px;
+    }
+    #hero-role .r-prefix { color:#00D4FF; opacity:.55; }
+
+    /* ─── MUSIC BUTTON ─── */
+    #music-btn {
+      position:fixed; bottom:24px; right:24px; z-index:300;
+      width:44px; height:44px; border-radius:50%;
+      background:var(--glass); border:1px solid var(--glass-border);
+      backdrop-filter:blur(12px);
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; transition:border-color .2s, box-shadow .2s;
+      color:var(--ink-soft); font-size:16px;
+    }
+    #music-btn:hover { border-color:var(--accent); color:var(--accent); box-shadow:0 0 12px var(--accent-glow); }
+    #music-btn.playing { border-color:var(--accent); color:var(--accent); animation:pulse-ring 2s ease infinite; }
+    @keyframes pulse-ring {
+      0%,100% { box-shadow:0 0 20px var(--accent-glow); }
+      50%      { box-shadow:0 0 32px rgba(0,212,255,.3); }
+    }
+    @media (max-width:767px) { #music-btn { bottom:68px; } }
+
+    /* ─── VERTICAL TEXT ─── */
+    .vert-text { writing-mode:vertical-rl; text-orientation:mixed; font-family:'JetBrains Mono',monospace; font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); user-select:none; }
+
+    /* ─── SCROLLBAR ─── */
+    ::-webkit-scrollbar { width:3px; }
+    ::-webkit-scrollbar-track { background:var(--void); }
+    ::-webkit-scrollbar-thumb { background:var(--ink-faint); border-radius:2px; }
+
+    /* ─── ABOUT SECTION PROMPT COLOR ─── */
+    #about .term-line .prompt { color:#A78BFA; }
+
+    /* ─── STAGGER DELAY HELPERS ─── */
+    .delay-1 { transition-delay:.08s; }
+    .delay-2 { transition-delay:.16s; }
   </style>
 </head>
 <body>
 
-  <!-- ════════════════════════════════
-       NAV (hidden, reveals on scroll up)
-  ════════════════════════════════ -->
-  <!-- Mobile overlay menu -->
-  <div id="mobile-menu">
-    <a href="#about"    class="mob-link">About</a>
-    <a href="#projects" class="mob-link">Projects</a>
-    <a href="#contact"  class="mob-link">Contact</a>
-    <a href="#contact" class="mob-cta">Open to work</a>
-    <button class="dark-toggle" id="dark-toggle-mob" title="Toggle dark mode" style="margin-top:8px;">☀</button>
+  <!-- Custom cursor -->
+  <div id="cursor"></div>
+  <div id="cursor-ring"></div>
+
+  <!-- Background video -->
+  <div id="bg-video-wrap">
+    <video id="bg-video" autoplay muted loop playsinline
+      src="https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-in-the-dark-2834/1080p.mp4">
+    </video>
+    <div id="bg-overlay"></div>
   </div>
 
-  <nav id="nav">
-    <div class="max-w-6xl mx-auto px-8 h-14 flex items-center justify-between">
-      <span class="text-xs font-medium tracking-widest uppercase" style="color:var(--ink);">Arya Dubey</span>
+  <!-- Ambient audio — replace src with your Cloudinary URL -->
+  <audio id="ambient-audio" loop src="" preload="none"></audio>
+  <button id="music-btn" title="Toggle ambient audio" aria-label="Toggle music">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+      <path d="M9 18V5l12-2v13"/>
+      <circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>
+    </svg>
+  </button>
 
-      <!-- Desktop links -->
-      <ul class="desktop-links flex items-center gap-8 list-none">
-        <li><a href="#about"    style="color:var(--ink-muted);" class="text-xs hover:text-amber transition-colors duration-200 tracking-wide">About</a></li>
-        <li><a href="#projects" style="color:var(--ink-muted);" class="text-xs hover:text-amber transition-colors duration-200 tracking-wide">Projects</a></li>
-        <li><a href="#contact"  style="color:var(--ink-muted);" class="text-xs hover:text-amber transition-colors duration-200 tracking-wide">Contact</a></li>
-        <li>
-          <a href="#contact" class="text-xs px-4 py-1.5 rounded-full tracking-wide hover:opacity-90 transition-opacity" style="background:var(--amber);color:var(--amber-lt);">
-            Open to work
-          </a>
-        </li>
-        <li class="hidden md:list-item">
-          <button class="dark-toggle" id="dark-toggle" title="Toggle dark mode">☀</button>
-        </li>
-      </ul>
 
-      <!-- Mobile right side -->
-      <div class="flex items-center gap-3 md:hidden">
-        <button class="hamburger" id="hamburger" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
-      </div>
+  <!-- ════════════════════════════════════════
+       VSCODE SIDEBAR
+  ════════════════════════════════════════ -->
+  <aside id="sidebar" aria-label="Site navigation">
+
+    <a href="#hero" class="sb-brand" aria-label="Home">A</a>
+
+    <nav class="sb-nav" aria-label="Sections">
+      <a href="#hero"     class="sb-btn active" data-section="hero"     data-tip="Home"     aria-label="Home">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+      </a>
+      <a href="#about"    class="sb-btn" data-section="about"    data-tip="About"    aria-label="About">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="8" r="4"/>
+          <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+        </svg>
+      </a>
+      <a href="#projects" class="sb-btn" data-section="projects" data-tip="Projects"  aria-label="Projects">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <rect x="2" y="3" width="8" height="8" rx="1"/>
+          <rect x="14" y="3" width="8" height="8" rx="1"/>
+          <rect x="2" y="13" width="8" height="8" rx="1"/>
+          <rect x="14" y="13" width="8" height="8" rx="1"/>
+        </svg>
+      </a>
+      <a href="#contact"  class="sb-btn" data-section="contact"  data-tip="Contact"   aria-label="Contact">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </a>
+    </nav>
+
+    <!-- Scroll progress indicator -->
+    <div class="sb-progress" aria-hidden="true">
+      <div class="sb-progress-fill" id="sb-progress-fill"></div>
     </div>
-  </nav>
 
-
-  <!-- ════════════════════════════════
-       HERO
-  ════════════════════════════════ -->
-  <section id="hero" class="relative flex flex-col justify-center md:justify-end px-8 md:px-16 pt-14 pb-16 border-b border-paper-line max-w-6xl mx-auto">
-    
-    <p id="hero-eyebrow" class="fade-up text-xs tracking-widest uppercase text-ink-muted mb-6">Product engineer</p>
-
-    <h1 class="font-serif font-normal leading-none mb-0" style="font-size: clamp(52px, 9vw, 108px);">
-      <span class="reveal-line"><span>I build software</span></span>
-      <span class="reveal-line" style="transition-delay: 0.08s"><span>that solves</span></span>
-      <span class="reveal-line" style="transition-delay: 0.16s"><span class="italic text-amber">real problems.</span></span>
-    </h1>
-
-    <div id="hero-bottom" class="fade-up flex flex-col md:flex-row md:items-end md:justify-between gap-8 mt-10">
-      <p class="text-sm leading-relaxed text-ink-soft max-w-xs md:max-w-sm">
-        Django, Python, Tailwind. From local businesses to SaaS.<br>Fast to ship, built to last.
-      </p>
-      <div class="flex gap-3 items-center">
-        <a href="#projects" class="bg-ink text-paper text-xs px-6 py-3 tracking-wide hover:bg-amber transition-colors duration-200">View my work</a>
-        <a href="#contact"  class="text-xs px-6 py-3 tracking-wide border border-paper-line hover:border-ink-faint transition-colors duration-200">Let's talk</a>
-      </div>
+    <!-- Social links -->
+    <div class="sb-socials">
+      <a href="https://github.com/aryadubey1" target="_blank" rel="noopener" class="sb-social-link" title="GitHub" aria-label="GitHub">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"/>
+        </svg>
+      </a>
+      <a href="https://x.com/_aryadubey" target="_blank" rel="noopener" class="sb-social-link" title="X / Twitter" aria-label="X / Twitter">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
+        </svg>
+      </a>
+      <a href="#" class="sb-social-link" title="LinkedIn" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
+          <rect x="2" y="9" width="4" height="12"/>
+          <circle cx="4" cy="4" r="2"/>
+        </svg>
+      </a>
     </div>
-
-    <span class="hidden md:block absolute right-8 top-1/2 -translate-y-1/2 rotate-90 text-xs tracking-widest uppercase text-paper-line select-none">Scroll</span>
-  </section>
+  </aside>
 
 
-  <!-- ════════════════════════════════
-       ABOUT
-  ════════════════════════════════ -->
-  <section id="about" class="max-w-6xl mx-auto px-8 md:px-16 py-20 border-b border-paper-line">
+  <!-- ════════════════════════════════════════
+       MAIN CONTENT
+  ════════════════════════════════════════ -->
+  <div id="main-wrap">
 
-    <p class="section-reveal text-xs tracking-widest uppercase text-ink-faint mb-12">About</p>
+    <!-- ══════ HERO ══════ -->
+    <section id="hero" class="relative flex flex-col justify-center md:justify-end px-6 md:px-16 pt-14 pb-16 max-w-6xl mx-auto">
 
-    <div class="section-reveal grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+      <!-- Right edge line -->
+      <div style="position:absolute;top:0;right:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,rgba(0,212,255,.15),transparent);opacity:.5;" aria-hidden="true"></div>
 
-      <!-- bio -->
-      <div class="space-y-5 text-base leading-relaxed text-ink-soft" style="font-size:15px; line-height:1.85;">
-        <p>
-          <span class="text-amber">Problems First. Code Second.</span>
-          I build web applications that solve real business problems — from the first line of code
-          to a live, self-managed production server. The work spans backend architecture,
-          database design, and infrastructure, with a focus on
-          <span class="text-amber">shipping products that actually get used.</span>
-        </p>
-        <p>
-          Recent work includes a full-stack invoicing and inventory platform built for a jewellery
-          business — handling GST compliance, stock management, cashflow tracking, and PDF generation,
-          deployed on a self-managed Linux VPS with Nginx and PostgreSQL.
-        </p>
-        <p>
-          I use AI tools the way a carpenter uses power tools — to deliver better work, faster.
-          The understanding of what's being built doesn't get outsourced.
-        </p>
-        <p>
-          Open to freelance projects, contracts, and full-time opportunities.
-          If you have something that needs building, I'm interested.
-        </p>
-
-        <a href="#" class="inline-flex items-center gap-2 text-xs text-amber border-b border-amber pb-0.5 tracking-wide mt-2 hover:opacity-70 transition-opacity">
-          ↓ Download CV
-        </a>
+      <!-- Eyebrow: cycling typewriter -->
+      <div id="hero-eyebrow" class="fade-up flex items-center gap-5 mb-10 flex-wrap">
+        <span class="hero-eyebrow-mono">
+          <span class="accent">arya</span><span class="at">@</span><span id="cycle-text" style="color:#9BA8BC;min-width:70px;display:inline-block;">dubey</span><span class="suffix">:~$</span><span class="typed-cursor" style="background:#00D4FF;"></span>
+        </span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ink-faint);text-transform:uppercase;padding-left:12px;border-left:1px solid var(--ink-faint);">INDORE, IN</span>
       </div>
 
-      <!-- skills -->
-      <div class="space-y-7">
+      <!-- Main heading -->
+      <h1 style="font-family:'Syne',sans-serif;font-weight:700;line-height:.95;letter-spacing:-.02em;font-size:clamp(48px,9vw,110px);">
+        <span class="reveal-line"><span>I build software</span></span>
+        <span class="reveal-line delay-1"><span>that solves</span></span>
+        <span class="reveal-line delay-2">
+          <span class="glitch shimmer-text" data-text="real problems." style="color:#00D4FF;">real problems.</span>
+        </span>
+      </h1>
 
+      <!-- Cycling role subtitle -->
+      <div id="hero-role" class="fade-up" style="transition-delay:.25s;">
+        <span class="r-prefix">//</span>
+        <span id="role-text" style="color:var(--ink-soft);min-width:180px;display:inline-block;"></span>
+        <span class="typed-cursor" style="background:#00D4FF;"></span>
+      </div>
+
+      <!-- Bottom row: desc + CTAs -->
+      <div id="hero-bottom" class="fade-up flex flex-col md:flex-row md:items-end md:justify-between gap-8 mt-14">
         <div>
-          <p class="text-xs tracking-widest uppercase text-ink-faint mb-3 pb-2 border-b border-paper-line">Languages</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="skill-tag">Python</span>
-            <span class="skill-tag">JavaScript</span>
-            <span class="skill-tag">HTML</span>
-            <span class="skill-tag">CSS</span>
+          <p class="leading-relaxed max-w-sm" style="color:var(--ink-soft);font-size:14px;">
+            Django · Python · Tailwind.<br>
+            From local businesses to SaaS.<br>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-muted);">// Fast to ship, built to last.</span>
+          </p>
+        </div>
+        <div class="flex gap-3 items-center flex-wrap">
+          <a href="#projects" class="btn-primary">View my work</a>
+          <a href="#contact"  class="btn-ghost">Let's talk</a>
+        </div>
+      </div>
+
+      <span class="hidden md:block vert-text absolute" style="right:-2px;top:50%;transform:translateY(-50%);" aria-hidden="true">scroll down</span>
+    </section>
+
+    <div class="glow-line max-w-6xl mx-auto"></div>
+
+
+    <!-- ══════ ABOUT ══════ -->
+    <section id="about" class="section-tint max-w-6xl mx-auto px-6 md:px-16 py-20 md:py-28">
+
+      <p class="section-reveal sec-label mb-4">About</p>
+      <div class="cyan-line section-reveal" style="--sec-col:#A78BFA;"></div>
+
+      <div class="section-reveal grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-20 items-start">
+
+        <!-- Terminal bio -->
+        <div class="terminal-window">
+          <div class="terminal-bar">
+            <span class="term-dot term-dot-r"></span>
+            <span class="term-dot term-dot-y"></span>
+            <span class="term-dot term-dot-g"></span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);margin-left:8px;letter-spacing:.06em;">arya@portfolio ~ bio.sh</span>
+          </div>
+          <div class="terminal-body space-y-3">
+            <div class="term-line"><span class="prompt" style="color:#A78BFA;">$</span><span class="cmd">cat philosophy.txt</span></div>
+            <div class="term-line" style="padding-left:16px;">
+              <span class="out"><span class="key">Problems First.</span> <span class="val">Code Second.</span></span>
+            </div>
+            <div class="term-line" style="padding-left:16px;color:var(--ink-soft);font-family:'Inter',sans-serif;font-size:13px;line-height:1.8;">
+              I build web applications that solve real business problems — from the first line of code to a live, self-managed production server. Backend architecture, database design, infrastructure — with a focus on shipping products that actually get used.
+            </div>
+            <br/>
+            <div class="term-line"><span class="prompt" style="color:#A78BFA;">$</span><span class="cmd">cat recent_work.json</span></div>
+            <div class="term-line" style="padding-left:16px;color:var(--ink-soft);font-family:'Inter',sans-serif;font-size:13px;line-height:1.8;">
+              Full-stack invoicing &amp; inventory platform for a jewellery business — GST compliance, stock management, cashflow tracking, PDF generation. Self-managed Linux VPS with Nginx &amp; PostgreSQL.
+            </div>
+            <br/>
+            <div class="term-line"><span class="prompt" style="color:#A78BFA;">$</span><span class="cmd">echo $AI_APPROACH</span></div>
+            <div class="term-line" style="padding-left:16px;">
+              <span class="val">"Like a carpenter uses power tools — better work, faster."</span>
+            </div>
+            <br/>
+            <div class="term-line" style="display:flex;align-items:center;">
+              <span class="prompt" style="color:#A78BFA;">$</span>
+              <span class="cmd">_</span>
+              <span class="typed-cursor" style="background:#A78BFA;margin-left:0;"></span>
+            </div>
           </div>
         </div>
 
-        <div>
-          <p class="text-xs tracking-widest uppercase text-ink-faint mb-3 pb-2 border-b border-paper-line">Frameworks</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="skill-tag">Django</span>
-            <span class="skill-tag">DRF</span>
-            <span class="skill-tag">Tailwind CSS</span>
+        <!-- Skills + CV -->
+        <div class="space-y-8">
+          <div>
+            <p class="sec-label mb-4">Languages</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="skill-tag">Python</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">HTML</span>
+              <span class="skill-tag">CSS</span>
+            </div>
           </div>
-        </div>
+          <div class="glow-line" style="opacity:.15;"></div>
+          <div>
+            <p class="sec-label mb-4">Frameworks</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="skill-tag">Django</span>
+              <span class="skill-tag">DRF</span>
+              <span class="skill-tag">Tailwind CSS</span>
+            </div>
+          </div>
+          <div class="glow-line" style="opacity:.15;"></div>
+          <div>
+            <p class="sec-label mb-4">Tools &amp; Infra</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="skill-tag">PostgreSQL</span>
+              <span class="skill-tag">Nginx</span>
+              <span class="skill-tag">Gunicorn</span>
+              <span class="skill-tag">Linux VPS</span>
+              <span class="skill-tag">Cloudinary</span>
+              <span class="skill-tag">Cursor</span>
+            </div>
+          </div>
+          <div class="glow-line" style="opacity:.15;"></div>
 
-        <div>
-          <p class="text-xs tracking-widest uppercase text-ink-faint mb-3 pb-2 border-b border-paper-line">Tools & infra</p>
-          <div class="flex flex-wrap gap-2">
-            <span class="skill-tag">PostgreSQL</span>
-            <span class="skill-tag">Cloudinary</span>
-            <span class="skill-tag">Render</span>
-            <span class="skill-tag">Telegram API</span>
-            <span class="skill-tag">Claude</span>
-            <span class="skill-tag">Cursor</span>
+          <!-- Download CV — moved here from hero -->
+          <div>
+            <a href="#" style="text-decoration:none;">
+              <span class="btn-ghost" style="padding:10px 24px;border-color:#A78BFA;color:#A78BFA;display:inline-flex;align-items:center;gap:8px;">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7,10 12,15 17,10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download CV
+              </span>
+            </a>
           </div>
         </div>
 
       </div>
-    </div>
-  </section>
+    </section>
+
+    <div class="glow-line max-w-6xl mx-auto"></div>
 
 
-  <!-- ════════════════════════════════
-       PROJECTS
-  ════════════════════════════════ -->
-  <section id="projects" class="max-w-6xl mx-auto px-8 md:px-16 py-20 border-b border-paper-line">
- 
-    <div class="section-reveal flex items-baseline justify-between mb-12">
-      <p class="text-xs tracking-widest uppercase text-ink-faint">Projects</p>
-      {% if projects %}
-      <span class="text-xs tracking-widest uppercase text-ink-faint">
-        0{{ projects|length }} works
-      </span>
-      {% endif %}
-    </div>
-  
-    <div class="project-card-grid section-reveal">
-      {% for project in projects %}
-  
-        {% if project.live_url %}
-        <a href="{{ project.live_url }}"
-          target="_blank" rel="noopener noreferrer"
-          class="proj-card"
-          data-tilt>
-        {% else %}
-        <a href="#" class="proj-card" data-tilt>
+    <!-- ══════ PROJECTS ══════ -->
+    <section id="projects" class="section-tint max-w-6xl mx-auto px-6 md:px-16 py-20 md:py-28">
+
+      <div class="section-reveal flex items-center justify-between mb-4">
+        <p class="sec-label">Projects</p>
+        {% if projects %}
+        <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.1em;">
+          0{{ projects|length }}_works
+        </span>
         {% endif %}
-  
-          {# ── Cover image ── #}
-          <div class="proj-card-img">
-            {% if project.image %}
-              <img src="{{ project.image.url }}"
-                  alt="{{ project.title }}"
-                  loading="lazy" />
-            {% else %}
-              {# Coloured placeholder gradient (cycles through 6 variants) #}
-              <div class="proj-card-img-placeholder proj-placeholder-{% cycle '0' '1' '2' '3' '4' '5' %}">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2">
-                  <rect x="3" y="3" width="18" height="18" rx="2"/>
-                  <path d="M3 9h18M9 21V9"/>
-                </svg>
+      </div>
+      <div class="cyan-line section-reveal" style="--sec-col:#FBBF24;"></div>
+
+      <div class="project-card-grid section-reveal">
+        {% for project in projects %}
+          {% if project.live_url %}
+          <a href="{{ project.live_url }}" target="_blank" rel="noopener noreferrer" class="proj-card" data-tilt>
+          {% else %}
+          <a href="#" class="proj-card" data-tilt>
+          {% endif %}
+
+            <div class="proj-card-img">
+              {% if project.image %}
+                <img src="{{ project.image.url }}" alt="{{ project.title }}" loading="lazy" />
+              {% else %}
+                <div class="proj-card-img-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M3 9h18M9 21V9"/>
+                  </svg>
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="proj-card-body">
+              <div class="proj-card-meta">
+                <span class="proj-card-num">0{{ forloop.counter }}</span>
+                <span class="proj-card-arrow">↗</span>
               </div>
-            {% endif %}
-          </div>
-  
-          {# ── Card body ── #}
-          <div class="proj-card-body">
-  
-            <div class="proj-card-meta">
-              <span class="proj-card-num">0{{ forloop.counter }}</span>
-              <span class="proj-card-arrow">↗</span>
+              <h3 class="proj-card-title">{{ project.title }}</h3>
+              <p class="proj-card-desc">{{ project.description }}</p>
+
+              {% with stacks=project.tech_stacks.all %}
+              {% if stacks %}
+              <div class="proj-tech-scroll" aria-label="Tech stack">
+                {% for stack in stacks %}
+                  {% if stack.has_devicon %}
+                    <span class="tech-pill" title="{{ stack.label }}">
+                      <i class="{{ stack.devicon_class }}"></i>{{ stack.label }}
+                    </span>
+                  {% else %}
+                    <span class="tech-pill">{{ stack.label }}</span>
+                  {% endif %}
+                {% endfor %}
+              </div>
+              {% endif %}
+              {% endwith %}
+
+              {% if project.tag_list %}
+              <div class="proj-card-tags">
+                {% for tag in project.tag_list %}
+                <span class="stack-tag">{{ tag }}</span>
+                {% endfor %}
+              </div>
+              {% endif %}
             </div>
-  
-            <h3 class="proj-card-title{% if project.title == 'Lumière' %} italic{% endif %}">
-              {{ project.title }}
-            </h3>
-  
-            <p class="proj-card-desc">{{ project.description }}</p>
-  
-            {# ── Tech-stack icon row ── #}
-            {% with stacks=project.tech_stacks.all %}
-            {% if stacks %}
-            <div class="proj-tech-icons" aria-label="Tech stack">
-              {% for stack in stacks %}
-                {% if stack.has_devicon %}
-                  {# Devicon glyph with tooltip #}
-                  <span class="proj-tech-icon" title="{{ stack.label }}">
-                    <i class="{{ stack.devicon_class }}"></i>
-                  </span>
-                {% else %}
-                  {# Text badge fallback for Render, Cloudinary, Stripe, Telegram #}
-                  <span class="proj-tech-badge" title="{{ stack.label }}">
-                    {{ stack.label }}
-                  </span>
-                {% endif %}
-              {% endfor %}
-            </div>
-            {% endif %}
-            {% endwith %}
-  
-            {# ── Tag chips ── #}
-            {% if project.tag_list %}
-            <div class="proj-card-tags">
-              {% for tag in project.tag_list %}
-              <span class="stack-tag">{{ tag }}</span>
-              {% endfor %}
-            </div>
-            {% endif %}
-  
-          </div>{# /proj-card-body #}
-  
-        </a>
-      {% empty %}
-        <p class="text-sm text-ink-muted col-span-full py-8">
-          No projects yet — add them from the admin panel.
-        </p>
-      {% endfor %}
-    </div>
-  
-  </section>
+          </a>
 
-
-  <!-- ════════════════════════════════
-       CONTACT
-  ════════════════════════════════ -->
-  <section id="contact" class="max-w-6xl mx-auto px-8 md:px-16 py-20 border-b border-paper-line">
-
-    <div class="section-reveal grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24 items-start">
-
-      <!-- left -->
-      <div>
-        <p class="text-xs tracking-widest uppercase mb-5" style="color:#D3D1C7;">
-          <span class="bracket">[</span>
-          <span class="text-amber mx-1.5" style="letter-spacing:0.08em;">Available for work</span>
-          <span class="bracket">]</span>
-        </p>
-        <h2 class="font-serif font-normal leading-tight mb-5" style="font-size: clamp(34px, 5vw, 52px);">
-          Let's build<br>something<br><em class="italic text-amber">together.</em>
-        </h2>
-        <p class="text-sm leading-relaxed text-ink-soft max-w-sm">
-          Whether you need a full product built, a website for your business,
-          or just want to explore an idea — reach out.
-          Open to freelance, contracts, and full-time roles.
-        </p>
+        {% empty %}
+          <p style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ink-muted);padding:48px 24px;">
+            // No projects yet — add them from the admin panel.
+          </p>
+        {% endfor %}
       </div>
+    </section>
 
-      <!-- form -->
-      <div>
-        <form id="contact-form" class="space-y-6">
-          {% csrf_token %}
+    <div class="glow-line max-w-6xl mx-auto"></div>
 
-          <div>
-            <label class="block text-xs tracking-widest uppercase text-ink-muted mb-2">Name</label>
-            <input class="field-input" type="text" name="name" placeholder="Your name" required />
+
+    <!-- ══════ CONTACT ══════ -->
+    <section id="contact" class="section-tint max-w-6xl mx-auto px-6 md:px-16 py-20 md:py-28">
+
+      <p class="section-reveal sec-label mb-4">Contact</p>
+      <div class="cyan-line section-reveal" style="--sec-col:#34D399;"></div>
+
+      <div class="section-reveal grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24 items-start">
+
+        <!-- Left: heading + socials -->
+        <div>
+          <h2 class="shimmer-text mb-6" style="font-family:'Syne',sans-serif;font-weight:700;line-height:1.05;letter-spacing:-.02em;font-size:clamp(32px,5vw,52px);">
+            Let's build<br>something<br>together.
+          </h2>
+          <p style="color:var(--ink-soft);font-size:14px;line-height:1.8;max-width:320px;">
+            Whether you need a full product built, a website for your business, or just want to explore an idea — reach out. Open to freelance, contracts, and full-time roles.
+          </p>
+          <div class="flex gap-6 mt-10 flex-wrap">
+            <a href="https://github.com/aryadubey1" target="_blank" rel="noopener" class="nav-link" style="font-size:12px;">GitHub</a>
+            <a href="https://x.com/_aryadubey"      target="_blank" rel="noopener" class="nav-link" style="font-size:12px;">X / Twitter</a>
+            <a href="#"                              class="nav-link" style="font-size:12px;">LinkedIn</a>
           </div>
+        </div>
 
-          <div>
-            <label class="block text-xs tracking-widest uppercase text-ink-muted mb-2">Email</label>
-            <input class="field-input" type="email" name="email" placeholder="your@email.com" required />
+        <!-- Right: terminal form -->
+        <div class="terminal-window">
+          <div class="terminal-bar">
+            <span class="term-dot term-dot-r"></span>
+            <span class="term-dot term-dot-y"></span>
+            <span class="term-dot term-dot-g"></span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);margin-left:8px;letter-spacing:.06em;">arya@portfolio ~ contact.sh</span>
           </div>
+          <div class="terminal-body">
+            <form id="contact-form" class="space-y-7">
+              {% csrf_token %}
+              <div>
+                <label class="field-label">name</label>
+                <input class="field-input" type="text" name="name" placeholder="your_name" required />
+              </div>
+              <div>
+                <label class="field-label">email</label>
+                <input class="field-input" type="email" name="email" placeholder="your@email.com" required />
+              </div>
+              <div>
+                <label class="field-label">message</label>
+                <textarea class="field-input" name="message" rows="4" placeholder="describe_your_project..." required style="resize:none;"></textarea>
+              </div>
+              <div class="flex items-center gap-4 flex-wrap">
+                <button type="submit" class="send-btn" id="send-btn">send_message</button>
+                <p id="form-msg" class="hidden" style="font-family:'JetBrains Mono',monospace;font-size:11px;"></p>
+              </div>
+            </form>
+          </div>
+        </div>
 
-          <div>
-            <label class="block text-xs tracking-widest uppercase text-ink-muted mb-2">Message</label>
-            <textarea class="field-input" name="message" rows="4" placeholder="Tell me about your project..." required></textarea>
-          </div>
-
-          <div>
-            <button type="submit" class="send-btn" id="send-btn">Send message →</button>
-            <p id="form-msg" class="text-xs mt-3 hidden"></p>
-          </div>
-        </form>
       </div>
-
-    </div>
-  </section>
+    </section>
 
 
-  <!-- ════════════════════════════════
-       FOOTER
-  ════════════════════════════════ -->
-  <footer class="max-w-6xl mx-auto px-8 md:px-16 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
-    <span class="text-xs text-ink-faint tracking-wide">© 2025 Arya Dubey</span>
-    <div class="flex gap-6">
-      <a href="https://github.com/aryadubey1" target="_blank" rel="noopener" class="text-xs text-ink-muted hover:text-amber transition-colors duration-200 tracking-wide">GitHub</a>
-      <a href="https://x.com/_aryadubey"      target="_blank" rel="noopener" class="text-xs text-ink-muted hover:text-amber transition-colors duration-200 tracking-wide">X</a>
-      <a href="#"                              class="text-xs text-ink-muted hover:text-amber transition-colors duration-200 tracking-wide">LinkedIn</a>
-    </div>
-  </footer>
+    <!-- ══════ FOOTER ══════ -->
+    <div class="glow-line"></div>
+    <footer class="max-w-6xl mx-auto px-6 md:px-16 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
+      <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.08em;">
+        © 2025 Arya Dubey — built with Django
+      </span>
+      <div class="flex gap-6">
+        <a href="https://github.com/aryadubey1" target="_blank" rel="noopener" class="nav-link" style="font-size:11px;">GitHub</a>
+        <a href="https://x.com/_aryadubey"      target="_blank" rel="noopener" class="nav-link" style="font-size:11px;">X</a>
+        <a href="#"                              class="nav-link" style="font-size:11px;">LinkedIn</a>
+      </div>
+    </footer>
+
+  </div><!-- /#main-wrap -->
 
 
-  <!-- ════════════════════════════════
+  <!-- ════════════════════════════════════════
        JAVASCRIPT
-  ════════════════════════════════ -->
+  ════════════════════════════════════════ -->
   <script>
-    // ── 1. Dark mode ──
-    const html = document.documentElement;
-    const toggleDark = () => {
-      html.classList.toggle('dark');
-      const isDark = html.classList.contains('dark');
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-      document.getElementById('dark-toggle').textContent     = isDark ? '☽' : '☀';
-      document.getElementById('dark-toggle-mob').textContent = isDark ? '☽' : '☀';
-      // close mobile menu
-      document.getElementById('hamburger').classList.remove('open');
-      document.getElementById('mobile-menu').classList.remove('open');
-      document.body.style.overflow = '';
-    };
-    // Apply saved preference on load
-    if (localStorage.getItem('theme') === 'dark' ||
-       (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      html.classList.add('dark');
-      document.addEventListener('DOMContentLoaded', () => {
-        document.getElementById('dark-toggle').textContent     = '☽';
-        document.getElementById('dark-toggle-mob').textContent = '☽';
-      });
+  // ── 1. CUSTOM CURSOR ──────────────────────────────────────
+  const cursor = document.getElementById('cursor');
+  const cRing  = document.getElementById('cursor-ring');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top  = my + 'px';
+  });
+  (function raf() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    cRing.style.left = rx + 'px';
+    cRing.style.top  = ry + 'px';
+    requestAnimationFrame(raf);
+  })();
+
+
+  // ── 2. CYCLING TYPEWRITER ─────────────────────────────────
+  const cycleWords = ['dubey', 'fullstack', 'builder', 'solver', 'dubey'];
+  const roleWords  = ['Product Builder', 'Full-Stack Dev', 'Problem Solver', 'Django · Python', 'Ship-First Dev'];
+
+  const cycleEl = document.getElementById('cycle-text');
+  const roleEl  = document.getElementById('role-text');
+
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+
+  async function typeOut(el, text, speed = 62) {
+    for (let i = 0; i <= text.length; i++) {
+      el.textContent = text.slice(0, i); await wait(speed);
     }
-    document.getElementById('dark-toggle').addEventListener('click', toggleDark);
-    document.getElementById('dark-toggle-mob').addEventListener('click', toggleDark);
+  }
+  async function erase(el, speed = 38) {
+    const t = el.textContent;
+    for (let i = t.length; i >= 0; i--) {
+      el.textContent = t.slice(0, i); await wait(speed);
+    }
+  }
+  async function runCycle(el, words, pauseMs = 2000, startDelay = 0) {
+    await wait(startDelay);
+    let i = 0;
+    await typeOut(el, words[i]);
+    while (true) {
+      await wait(pauseMs);
+      await erase(el);
+      i = (i + 1) % words.length;
+      await wait(200);
+      await typeOut(el, words[i]);
+    }
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    runCycle(cycleEl, cycleWords, 2400, 1600);
+    runCycle(roleEl,  roleWords,  2100,  700);
+  });
 
 
-    // ── 2. Hamburger / mobile menu ──
-    const hamburger  = document.getElementById('hamburger');
-    const mobileMenu = document.getElementById('mobile-menu');
-
-    hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      mobileMenu.classList.toggle('open');
-      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
-    });
-
-    document.querySelectorAll('#mobile-menu a').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        mobileMenu.classList.remove('open');
-        document.body.style.overflow = '';
-      });
-    });
+  // ── 3. SCROLL PROGRESS BAR ───────────────────────────────
+  const progressFill = document.getElementById('sb-progress-fill');
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    if (progressFill && total > 0)
+      progressFill.style.height = (window.scrollY / total * 100) + '%';
+  }, { passive: true });
 
 
-    // ── 3. Nav: visible on load, hide on scroll down, show on scroll up ──
-    const nav = document.getElementById('nav');
-    let lastY = 0;
-    nav.classList.add('visible');
+  // ── 4. ACTIVE SIDEBAR SECTION + COLOR MORPH ──────────────
+  const sectionColors = {
+    hero:     { accent:'#00D4FF', glow:'rgba(0,212,255,0.18)',   glowSm:'rgba(0,212,255,0.08)' },
+    about:    { accent:'#A78BFA', glow:'rgba(167,139,250,0.18)', glowSm:'rgba(167,139,250,0.08)' },
+    projects: { accent:'#FBBF24', glow:'rgba(251,191,36,0.18)',  glowSm:'rgba(251,191,36,0.08)' },
+    contact:  { accent:'#34D399', glow:'rgba(52,211,153,0.18)',  glowSm:'rgba(52,211,153,0.08)' },
+  };
+  const sbBtns = document.querySelectorAll('.sb-btn[data-section]');
 
-    window.addEventListener('scroll', () => {
-      const y = window.scrollY;
-      if (y <= 0) {
-        nav.classList.add('visible');
-      } else if (y < lastY) {
-        nav.classList.add('visible');
-      } else if (y > lastY + 8) {
-        nav.classList.remove('visible');
+  // Smooth hex color morph
+  function hexToRgb(hex) {
+    const r = parseInt(hex.slice(1,3),16);
+    const g = parseInt(hex.slice(3,5),16);
+    const b = parseInt(hex.slice(5,7),16);
+    return [r,g,b];
+  }
+  function rgbToHex(r,g,b) {
+    return '#' + [r,g,b].map(v => Math.round(v).toString(16).padStart(2,'0')).join('');
+  }
+  function lerp(a,b,t) { return a + (b-a)*t; }
+
+  let currentColor  = '#00D4FF';
+  let targetColor   = '#00D4FF';
+  let morphProgress = 1;
+  let morphRaf;
+
+  function morphTo(target) {
+    targetColor   = target;
+    morphProgress = 0;
+    if (morphRaf) cancelAnimationFrame(morphRaf);
+    const from = hexToRgb(currentColor);
+    const to   = hexToRgb(target);
+    function step() {
+      morphProgress = Math.min(morphProgress + 0.025, 1);
+      const eased   = 1 - Math.pow(1 - morphProgress, 3);
+      const r = lerp(from[0], to[0], eased);
+      const g = lerp(from[1], to[1], eased);
+      const b = lerp(from[2], to[2], eased);
+      const hex = rgbToHex(r,g,b);
+      document.documentElement.style.setProperty('--accent', hex);
+      if (progressFill) progressFill.style.background = hex;
+      cursor.style.background = hex;
+      sbBtns.forEach(btn => { if (btn.classList.contains('active')) btn.style.color = hex; });
+      if (morphProgress < 1) {
+        morphRaf = requestAnimationFrame(step);
+      } else {
+        currentColor = target;
       }
-      lastY = y;
-    }, { passive: true });
+    }
+    requestAnimationFrame(step);
+  }
 
-
-    // ── 4. Hero animation on load ──
-    window.addEventListener('DOMContentLoaded', () => {
-      document.querySelectorAll('.reveal-line').forEach((el, i) => {
-        setTimeout(() => el.classList.add('in'), 120 + i * 100);
-      });
-      setTimeout(() => document.getElementById('hero-eyebrow').classList.add('in'), 60);
-      setTimeout(() => document.getElementById('hero-bottom').classList.add('in'), 520);
+  let currentSection = 'hero';
+  function setSection(id) {
+    if (id === currentSection) return;
+    currentSection = id;
+    sbBtns.forEach(btn => {
+      const active = btn.dataset.section === id;
+      btn.classList.toggle('active', active);
+      btn.style.color = active ? sectionColors[id]?.accent || '' : '';
+      btn.style.borderLeftColor = active ? sectionColors[id]?.accent || '' : '';
     });
+    const col = sectionColors[id];
+    if (col) {
+      morphTo(col.accent);
+      document.documentElement.style.setProperty('--accent-glow',    col.glow);
+      document.documentElement.style.setProperty('--accent-glow-sm', col.glowSm);
+    }
+  }
+
+  const sectionEls = ['hero','about','projects','contact'];
+  const secObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) setSection(e.target.id); });
+  }, { threshold: 0.35 });
+  sectionEls.forEach(id => { const el = document.getElementById(id); if (el) secObs.observe(el); });
 
 
-    // ── 5. Scroll-triggered section reveals ──
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); }
-      });
-    }, { threshold: 0.12 });
+  // ── 5. HERO ENTRANCE ANIMATIONS ──────────────────────────
+  window.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.reveal-line').forEach((el, i) => {
+      setTimeout(() => el.classList.add('in'), 120 + i * 100);
+    });
+    setTimeout(() => { const e = document.getElementById('hero-eyebrow'); if(e) e.classList.add('in'); }, 60);
+    setTimeout(() => { const e = document.getElementById('hero-bottom');  if(e) e.classList.add('in'); }, 550);
+    setTimeout(() => { const e = document.getElementById('hero-role');    if(e) e.classList.add('in'); }, 380);
+  });
 
-    document.querySelectorAll('.section-reveal').forEach(el => observer.observe(el));
+
+  // ── 6. SCROLL REVEAL ─────────────────────────────────────
+  const revealObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('in'); revealObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.section-reveal, .fade-up').forEach(el => revealObs.observe(el));
 
 
-    // ── 6. Contact form AJAX ──
-    const form    = document.getElementById('contact-form');
-    const btn     = document.getElementById('send-btn');
-    const formMsg = document.getElementById('form-msg');
-
-    form.addEventListener('submit', async (e) => {
+  // ── 7. CONTACT FORM AJAX ──────────────────────────────────
+  const form    = document.getElementById('contact-form');
+  const sendBtn = document.getElementById('send-btn');
+  const formMsg = document.getElementById('form-msg');
+  if (form) {
+    form.addEventListener('submit', async e => {
       e.preventDefault();
-      btn.disabled = true;
-      btn.textContent = 'Sending…';
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'sending...';
       formMsg.classList.add('hidden');
-
       try {
-        const res  = await fetch('/contact/', { method: 'POST', body: new FormData(form) });
+        const res  = await fetch('/contact/', { method:'POST', body: new FormData(form) });
         const data = await res.json();
         if (data.ok) {
           form.reset();
-          formMsg.textContent = "Message sent. I'll get back to you soon.";
-          formMsg.className   = 'text-xs mt-3';
-          formMsg.style.color = 'var(--amber)';
-          btn.textContent     = 'Sent ✓';
-        } else {
-          throw new Error(data.error || 'Something went wrong.');
-        }
-      } catch (err) {
-        formMsg.textContent = err.message;
-        formMsg.className   = 'text-xs mt-3 text-red-500';
-        btn.disabled        = false;
-        btn.textContent     = 'Send message →';
+          formMsg.textContent = "// Message sent. I'll reply soon.";
+          formMsg.style.color = '#34D399';
+          sendBtn.textContent = 'sent ✓';
+        } else throw new Error(data.error || 'Something went wrong.');
+      } catch(err) {
+        formMsg.textContent = '// Error: ' + err.message;
+        formMsg.style.color = '#FF3366';
+        sendBtn.disabled    = false;
+        sendBtn.textContent = 'send_message';
       }
       formMsg.classList.remove('hidden');
     });
-    // ── 7. 3D card tilt effect ──
-    (function () {
-      const TILT_MAX   = 10;   // max degrees
-      const SCALE      = 1.03; // lift scale
-      const RESET_MS   = 300;
-  
-      function applyTilt(card, e) {
-        const rect   = card.getBoundingClientRect();
-        const cx     = rect.left + rect.width  / 2;
-        const cy     = rect.top  + rect.height / 2;
-        const dx     = (e.clientX - cx) / (rect.width  / 2);
-        const dy     = (e.clientY - cy) / (rect.height / 2);
-        const rotX   = -dy * TILT_MAX;
-        const rotY   =  dx * TILT_MAX;
-        card.style.transition = 'transform 0.08s ease-out, box-shadow 0.2s ease';
-        card.style.transform  = `perspective(900px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${SCALE})`;
-      }
-  
-      function resetTilt(card) {
-        card.style.transition = `transform ${RESET_MS}ms cubic-bezier(0.16,1,0.3,1), box-shadow 0.2s ease`;
-        card.style.transform  = 'perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)';
-      }
-  
-      function initTilt() {
-        document.querySelectorAll('[data-tilt]').forEach(card => {
-          card.addEventListener('mousemove', e => applyTilt(card, e), { passive: true });
-          card.addEventListener('mouseleave', () => resetTilt(card));
-          card.addEventListener('touchstart', () => resetTilt(card), { passive: true });
-        });
-      }
-  
-      // Init after DOM ready (works whether script runs early or late)
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initTilt);
-      } else {
-        initTilt();
-      }
-    })();
+  }
+
+
+  // ── 8. AMBIENT MUSIC TOGGLE ──────────────────────────────
+  const audio    = document.getElementById('ambient-audio');
+  const musicBtn = document.getElementById('music-btn');
+  let playing = false;
+  musicBtn.addEventListener('click', () => {
+    if (!audio.src || audio.src === window.location.href) {
+      musicBtn.style.borderColor = '#FF3366'; musicBtn.style.color = '#FF3366';
+      setTimeout(() => { musicBtn.style.borderColor=''; musicBtn.style.color=''; }, 1200);
+      return;
+    }
+    if (playing) { audio.pause(); playing=false; musicBtn.classList.remove('playing'); }
+    else { audio.play().catch(()=>{}); playing=true; musicBtn.classList.add('playing'); }
+  });
+
+
+  // ── 9. 3D CARD TILT ──────────────────────────────────────
+  (function() {
+    const MAX=8, SCALE=1.015, RST=300;
+    function tilt(card, e) {
+      const rc = card.getBoundingClientRect();
+      const dx = (e.clientX - rc.left - rc.width/2)  / (rc.width/2);
+      const dy = (e.clientY - rc.top  - rc.height/2) / (rc.height/2);
+      card.style.transition = 'transform .08s ease-out';
+      card.style.transform  = `perspective(900px) rotateX(${-dy*MAX}deg) rotateY(${dx*MAX}deg) scale(${SCALE})`;
+    }
+    function reset(card) {
+      card.style.transition = `transform ${RST}ms cubic-bezier(.16,1,.3,1)`;
+      card.style.transform  = 'perspective(900px) rotateX(0) rotateY(0) scale(1)';
+    }
+    function init() {
+      document.querySelectorAll('[data-tilt]').forEach(c => {
+        c.addEventListener('mousemove', e => tilt(c,e), {passive:true});
+        c.addEventListener('mouseleave', () => reset(c));
+        c.addEventListener('touchstart', () => reset(c), {passive:true});
+      });
+    }
+    document.readyState==='loading' ? document.addEventListener('DOMContentLoaded',init) : init();
+  })();
   </script>
 
 </body>

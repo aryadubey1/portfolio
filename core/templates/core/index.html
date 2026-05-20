@@ -7,6 +7,7 @@
   <meta name="description" content="Product engineer building fast, clean software for businesses and startups." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
@@ -90,7 +91,7 @@
 
     /* ─── BACKGROUND VIDEO ─── */
     #bg-video-wrap { position:fixed; inset:0; z-index:0; overflow:hidden; }
-    #bg-video { width:100%; height:100%; object-fit:cover; opacity:.18; filter:saturate(.5) brightness(.4); }
+    #bg-video { width:100%; height:100%; object-fit:cover; opacity:.52; filter:saturate(.6) brightness(.5); }
     #bg-overlay {
       position:absolute; inset:0;
       background:
@@ -504,6 +505,11 @@
     /* ─── STAGGER DELAY HELPERS ─── */
     .delay-1 { transition-delay:.08s; }
     .delay-2 { transition-delay:.16s; }
+    <meta property="og:title"       content="Arya Dubey — Product Engineer" />
+    <meta property="og:description" content="Django developer building full-stack products from code to production." />
+    <meta property="og:image"       content="https://res.cloudinary.com/dkfcrs9df/image/upload/v1779294844/og_preview_image_1_ijcuhz.png" />
+    <meta property="og:url"         content="https://aryadubey.tech" />
+    <meta name="twitter:card"       content="summary_large_image" />
   </style>
 </head>
 <body>
@@ -515,13 +521,13 @@
   <!-- Background video -->
   <div id="bg-video-wrap">
     <video id="bg-video" autoplay muted loop playsinline
-      src="https://cdn.coverr.co/videos/coverr-typing-on-a-laptop-in-the-dark-2834/1080p.mp4">
+      src="https://res.cloudinary.com/dkfcrs9df/video/upload/v1779290409/27669-365224683_medium_xeu4de.mp4">
     </video>
     <div id="bg-overlay"></div>
   </div>
 
   <!-- Ambient audio — replace src with your Cloudinary URL -->
-  <audio id="ambient-audio" loop src="" preload="none"></audio>
+  <audio id="ambient-audio" loop src="https://res.cloudinary.com/dkfcrs9df/video/upload/v1779291529/kontraa-water-afro-pop-music-445661_bympcx.mp3" preload="none"></audio>
   <button id="music-btn" title="Toggle ambient audio" aria-label="Toggle music">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
       <path d="M9 18V5l12-2v13"/>
@@ -583,7 +589,7 @@
           <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/>
         </svg>
       </a>
-      <a href="#" class="sb-social-link" title="LinkedIn" aria-label="LinkedIn">
+      <a href="https://www.linkedin.com/in/aryadubey1" target="_blank" rel="noopener" class="sb-social-link" title="LinkedIn" aria-label="LinkedIn">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6z"/>
           <rect x="2" y="9" width="4" height="12"/>
@@ -610,15 +616,16 @@
         <span class="hero-eyebrow-mono">
           <span class="accent">arya</span><span class="at">@</span><span id="cycle-text" style="color:#9BA8BC;min-width:70px;display:inline-block;">dubey</span><span class="suffix">:~$</span><span class="typed-cursor" style="background:#00D4FF;"></span>
         </span>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ink-faint);text-transform:uppercase;padding-left:12px;border-left:1px solid var(--ink-faint);">INDORE, IN</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.18em;color:var(--ink-faint);text-transform:uppercase;padding-left:12px;border-left:1px solid var(--ink-faint);">BHOPAL, IN</span>
       </div>
 
       <!-- Main heading -->
       <h1 style="font-family:'Syne',sans-serif;font-weight:700;line-height:.95;letter-spacing:-.02em;font-size:clamp(48px,9vw,110px);">
-        <span class="reveal-line"><span>I build software</span></span>
-        <span class="reveal-line delay-1"><span>that solves</span></span>
+        <span class="reveal-line"><span>I build software
+        </span></span>
+        <span class="reveal-line delay-1"><span>from first line</span></span>
         <span class="reveal-line delay-2">
-          <span class="glitch shimmer-text" data-text="real problems." style="color:#00D4FF;">real problems.</span>
+          <span class="glitch shimmer-text" data-text="real problems." style="color:#00D4FF;">to live server.</span>
         </span>
       </h1>
 
@@ -672,7 +679,7 @@
               <span class="out"><span class="key">Problems First.</span> <span class="val">Code Second.</span></span>
             </div>
             <div class="term-line" style="padding-left:16px;color:var(--ink-soft);font-family:'Inter',sans-serif;font-size:13px;line-height:1.8;">
-              I build web applications that solve real business problems — from the first line of code to a live, self-managed production server. Backend architecture, database design, infrastructure — with a focus on shipping products that actually get used.
+              Built and deployed 4+ full-stack Django applications for real clients, managing everything from database design to live Linux VPS. — from the first line of code to a live, self-managed production server. Backend architecture, database design, infrastructure — with a focus on shipping products that actually get used.
             </div>
             <br/>
             <div class="term-line"><span class="prompt" style="color:#A78BFA;">$</span><span class="cmd">cat recent_work.json</span></div>
@@ -706,11 +713,14 @@
           </div>
           <div class="glow-line" style="opacity:.15;"></div>
           <div>
-            <p class="sec-label mb-4">Frameworks</p>
+            <p class="sec-label mb-4">Frameworks & Libraries</p>
             <div class="flex flex-wrap gap-2">
               <span class="skill-tag">Django</span>
               <span class="skill-tag">DRF</span>
               <span class="skill-tag">Tailwind CSS</span>
+              <span class="skill-tag">django-allauth</span>
+              <span class="skill-tag">WeasyPrint</span>
+              <span class="skill-tag">Chart.js</span>
             </div>
           </div>
           <div class="glow-line" style="opacity:.15;"></div>
@@ -722,6 +732,7 @@
               <span class="skill-tag">Gunicorn</span>
               <span class="skill-tag">Linux VPS</span>
               <span class="skill-tag">Cloudinary</span>
+              <span class="skill-tag">Git</span>
               <span class="skill-tag">Cursor</span>
             </div>
           </div>
@@ -842,7 +853,7 @@
           <div class="flex gap-6 mt-10 flex-wrap">
             <a href="https://github.com/aryadubey1" target="_blank" rel="noopener" class="nav-link" style="font-size:12px;">GitHub</a>
             <a href="https://x.com/_aryadubey"      target="_blank" rel="noopener" class="nav-link" style="font-size:12px;">X / Twitter</a>
-            <a href="#"                              class="nav-link" style="font-size:12px;">LinkedIn</a>
+            <a href="https://www.linkedin.com/in/aryadubey1"                              class="nav-link" style="font-size:12px;">LinkedIn</a>
           </div>
         </div>
 
@@ -885,12 +896,12 @@
     <div class="glow-line"></div>
     <footer class="max-w-6xl mx-auto px-6 md:px-16 py-8 flex flex-col md:flex-row items-center justify-between gap-4">
       <span style="font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--ink-faint);letter-spacing:.08em;">
-        © 2025 Arya Dubey — built with Django
+        © 2026 Arya Dubey — built with Django
       </span>
       <div class="flex gap-6">
         <a href="https://github.com/aryadubey1" target="_blank" rel="noopener" class="nav-link" style="font-size:11px;">GitHub</a>
         <a href="https://x.com/_aryadubey"      target="_blank" rel="noopener" class="nav-link" style="font-size:11px;">X</a>
-        <a href="#"                              class="nav-link" style="font-size:11px;">LinkedIn</a>
+        <a href="https://www.linkedin.com/in/aryadubey1"                              class="nav-link" style="font-size:11px;">LinkedIn</a>
       </div>
     </footer>
 

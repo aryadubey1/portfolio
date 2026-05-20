@@ -62,26 +62,21 @@ TEMPLATES = [
 WSGI_APPLICATION = 'portfolio.wsgi.application'
 
 
-DATABASE_URL = os.environ.get('DATABASE_URL', '')
+DATABASE_URL = os.environ.get('DATABASE_URL')
 
-if DATABASE_URL:
-    DATABASES = {
-        'default': {
-            **dj_database_url.parse(DATABASE_URL),
-            'CONN_MAX_AGE': 600,        
-            'CONN_HEALTH_CHECKS': True,
-            'OPTIONS': {
-                'connect_timeout': 10, 
-            }
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL is not set. Add it to your .env file.")
+
+DATABASES = {
+    'default': {
+        **dj_database_url.parse(DATABASE_URL),
+        'CONN_MAX_AGE': 600,
+        'CONN_HEALTH_CHECKS': True,
+        'OPTIONS': {
+            'connect_timeout': 10,
         }
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
-    }
+}
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},

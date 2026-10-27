@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation'
 import { Emblem } from '@/components/Emblem'
 import { Boat, G, Glyph } from '@/components/Drawings'
 import { getIsland, getIslands, isAfloat } from '@/lib/data'
-import { isleStyle } from '@/lib/atlas'
+import { isleStyle, sized } from '@/lib/atlas'
 
 export const revalidate = 300
 
@@ -68,7 +68,13 @@ export default async function IslandPage({ params }: Args) {
       {p.cover && (
         <figure className="isl-cover sheet" style={isleStyle(p.slug, 0)}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={p.cover} alt={`${p.title}, screenshot`} />
+          <img
+            src={sized(p.cover, 1400)}
+            srcSet={`${sized(p.cover, 800)} 800w, ${sized(p.cover, 1400)} 1400w, ${sized(p.cover, 2000)} 2000w`}
+            sizes="(min-width: 1240px) 1180px, 94vw"
+            alt={`${p.title}, screenshot`}
+            fetchPriority="high"
+          />
           <span className="tape t1" aria-hidden="true" />
           <span className="tape t2" aria-hidden="true" />
         </figure>

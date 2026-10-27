@@ -260,7 +260,7 @@
 .isl-hero .lead { animation: rise 1s var(--ease) .25s backwards; }
 .isl-hero .hero-cta { animation-delay: .35s; }
 .isl-cover { position: relative; margin: 40px 0 0; padding: 10px; border-radius: 26px; transform: rotate(var(--rot, 0deg)); animation: rise 1.2s var(--ease) .3s backwards; }
-.isl-cover img { display: block; width: 100%; height: auto; border-radius: 18px; }
+.isl-cover img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top center; border-radius: 18px; background: var(--well); }
 .tape { position: absolute; width: 96px; height: 26px; background: color-mix(in srgb, var(--pg-honey) 70%, transparent); opacity: .85; mix-blend-mode: multiply; }
 .tape.t1 { top: -10px; left: 12%; transform: rotate(-6deg); }
 .tape.t2 { bottom: -10px; right: 10%; transform: rotate(5deg); background: color-mix(in srgb, var(--pg-sky) 70%, transparent); }

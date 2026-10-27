@@ -6,7 +6,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { MotionPathPlugin } from 'gsap/MotionPathPlugin'
-import { curve, isleStyle } from '@/lib/atlas'
+import { curve, isleStyle, sized } from '@/lib/atlas'
 import type { Island } from '@/lib/data'
 import { Emblem } from './Emblem'
 import { Boat, G, Glyph } from './Drawings'
@@ -34,7 +34,14 @@ function IsleCard({ p, i, onDive }: { p: MapIsland; i: number; onDive: (e: React
           {p.cover && (
             <span className="isle-cover">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.cover} alt="" loading="lazy" decoding="async" />
+              <img
+                src={sized(p.cover, 900)}
+                srcSet={`${sized(p.cover, 600)} 600w, ${sized(p.cover, 900)} 900w, ${sized(p.cover, 1300)} 1300w`}
+                sizes="(min-width: 900px) 560px, 92vw"
+                alt=""
+                loading="lazy"
+                decoding="async"
+              />
             </span>
           )}
           <span className="isle-top">

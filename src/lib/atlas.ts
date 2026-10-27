@@ -152,6 +152,12 @@ export function isleStyle(id: string, i: number) {
   } as Record<string, string | number>
 }
 
+/* Cloudinary covers: ask for the right width in the best format the browser takes */
+export const sized = (url: string, w: number) =>
+  /res\.cloudinary\.com\/[^/]+\/image\/upload\//.test(url) && !/\/upload\/[a-z]_/.test(url)
+    ? url.replace('/image/upload/', `/image/upload/f_auto,q_auto,w_${w},c_limit/`)
+    : url
+
 export const slugify = (s: string) =>
   String(s)
     .toLowerCase()

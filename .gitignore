@@ -1,6 +1,34 @@
-.env
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/out/
+next-env.d.ts
+*.tsbuildinfo
+
+# env + secrets
+.env*
+!.env.example
+.env*.local
+*.pem
+
+# payload uploads (live on the server outside the repo)
+/media
+
+# misc
+.DS_Store
+npm-debug.log*
+
+# old Django leftovers that may still sit in working copies
 .venv
 __pycache__
 *.pyc
-db.sqlite3
 staticfiles/
+gunicorn.ctl
+
+# local release test
+/.rel-test
+
+# old Django sqlite db (never commit)
+db.sqlite3

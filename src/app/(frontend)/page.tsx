@@ -1,5 +1,6 @@
 import { Hero } from '@/components/Hero'
 import { Voyage } from '@/components/Voyage'
+import { Scenes } from '@/components/Scenes'
 import { Currents } from '@/components/Currents'
 import { Process } from '@/components/Process'
 import { Faq } from '@/components/Faq'
@@ -23,6 +24,7 @@ export default async function Home() {
         intro={site.heroIntro}
         stats={{ islands: featured.length, live: afloat.filter(Boolean).length, tools: tools.size }}
       />
+      <Scenes islands={featured} />
       <Voyage islands={isles} />
       <Currents makes={site.makes} />
       <Process steps={site.process} />

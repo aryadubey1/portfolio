@@ -6,3 +6,4 @@ src/components
 src/lib/atlas.ts
 src/lib/content.ts
 src/lib/data.ts
+public/scenes

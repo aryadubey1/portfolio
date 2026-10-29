@@ -1,0 +1,205 @@
+@import "tailwindcss";
+@source not "../../../designs";
+
+/* ═══════════════════════════════════════════════════════════
+   aryadubey.tech — design tokens
+   Day: studio paper + watercolour sea (from Code Atlas).
+   Night: the same sea after dark, pigments glowing.
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  color-scheme: light;
+  --paper: #fbfaf7;
+  --sheet: #ffffff;
+  --well: #f4f5f6;
+  --rule: #e5e4e0;
+  --ink: #15161d;
+  --ink-2: #3c3f4e;
+  --muted: #5b5e6e;
+  --line: rgba(21, 22, 29, .11);
+  --line-2: rgba(21, 22, 29, .24);
+  --accent: #2b36d9;
+  --accent-ink: #ffffff;
+  --accent-soft: #e9ebfc;
+  --live: #0b7356; --live-soft: #dcf1e7;
+  --build: #8d5c00; --build-soft: #f8ecd1;
+  --idea: #7a7e90; --idea-soft: #eff0f3;
+  --bad: #be2340; --bad-soft: #fbe4e8;
+  --t1: #0e6aa8; --t2: #c4410f; --t3: #a3227f; --t4: #6b46c1; --t5: #0f766e;
+  --pg-coral: #f6b5a2; --pg-pink: #f3a6c0; --pg-honey: #f7d27a; --pg-sage: #c7d59b;
+  --pg-mint: #9ad7bd; --pg-sky: #a7c6f2; --pg-peach: #f4bf95; --pg-lilac: #c2b4f0;
+  --pg-ice: #a9d6ea; --pg-orchid: #efb0e0; --pg-sand: #d9cfb3; --pg-teal: #9fcfc9; --pg-mist: #d6d1ea;
+  --wash-1: #f4a9bf; --wash-2: #f8d77c; --wash-3: #98c4f0; --wash-4: #98d6bd; --wash-5: #c5b6f0; --wash-6: #f7baa0; --wash-7: #a4dae6;
+  --shade: rgba(21, 22, 29, .2);
+  --lift: 0 1px 2px rgba(21, 22, 29, .05), 0 12px 28px -14px rgba(21, 22, 29, .22), 0 34px 70px -40px rgba(21, 22, 29, .3);
+  --glass: color-mix(in srgb, var(--paper) 84%, transparent);
+  --display: var(--font-syne), "Trebuchet MS", system-ui, sans-serif;
+  --body: var(--font-figtree), "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono: var(--font-mono), ui-monospace, "Cascadia Mono", Consolas, monospace;
+  --ease: cubic-bezier(.2, .8, .2, 1);
+  --spring: cubic-bezier(.3, 1.5, .5, 1);
+  --dock-h: 76px;
+  --mx: 0; --my: 0;
+}
+
+:root[data-theme="night"] {
+  color-scheme: dark;
+  --paper: #0b0d17;
+  --sheet: #141829;
+  --well: #1a1f33;
+  --rule: #262c44;
+  --ink: #eef0f8;
+  --ink-2: #c6cadb;
+  --muted: #9aa0b8;
+  --line: rgba(238, 240, 248, .12);
+  --line-2: rgba(238, 240, 248, .26);
+  --accent: #9aa2ff;
+  --accent-ink: #0b0d17;
+  --accent-soft: #232861;
+  --live: #4fd6a5; --live-soft: #123a2e;
+  --build: #f0c25e; --build-soft: #3a2e12;
+  --idea: #9aa0b8; --idea-soft: #1d2236;
+  --bad: #ff7d93; --bad-soft: #3d1621;
+  --t1: #6cc0f5; --t2: #ff9a6a; --t3: #f07fcf; --t4: #b49cff; --t5: #5fd3c6;
+  --wash-1: #ff5f93; --wash-2: #ffc94a; --wash-3: #4f8cff; --wash-4: #2fd3a0; --wash-5: #8f6bff; --wash-6: #ff7f50; --wash-7: #3fd0f0;
+  --shade: rgba(0, 0, 0, .55);
+  --lift: 0 1px 2px rgba(0, 0, 0, .4), 0 14px 30px -14px rgba(0, 0, 0, .6), 0 40px 80px -40px rgba(0, 0, 0, .7);
+  --glass: color-mix(in srgb, var(--paper) 72%, transparent);
+}
+
+/* ═══════════ base ═══════════ */
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 84px; }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-stopped { overflow: hidden; }
+body {
+  margin: 0; background: var(--paper); color: var(--ink);
+  font: 16px/1.6 var(--body);
+  -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+  transition: background-color .6s var(--ease), color .6s var(--ease);
+  overflow-x: clip;
+}
+a { color: var(--accent); text-underline-offset: 3px; }
+img, svg { max-width: 100%; }
+button { font: inherit; color: inherit; }
+::selection { background: color-mix(in srgb, var(--accent) 24%, transparent); }
+:focus-visible { outline: 2.5px solid var(--accent); outline-offset: 3px; border-radius: 8px; }
+.sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip { position: fixed; left: 12px; top: -60px; z-index: 100; background: var(--ink); color: var(--sheet); padding: 10px 16px; border-radius: 999px; font-weight: 600; text-decoration: none; transition: top .2s; }
+.skip:focus { top: 12px; }
+
+/* ═══════════ the sea (fixed, behind everything) — CSS fallback under the WebGL canvas ═══════════ */
+.sky { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+  background:
+    radial-gradient(38% 30% at 14% 18%, color-mix(in srgb, var(--wash-1) 55%, transparent), transparent 70%),
+    radial-gradient(34% 28% at 82% 14%, color-mix(in srgb, var(--wash-3) 55%, transparent), transparent 70%),
+    radial-gradient(40% 34% at 60% 58%, color-mix(in srgb, var(--wash-2) 45%, transparent), transparent 72%),
+    radial-gradient(36% 30% at 12% 82%, color-mix(in srgb, var(--wash-4) 50%, transparent), transparent 70%),
+    radial-gradient(34% 30% at 90% 86%, color-mix(in srgb, var(--wash-5) 50%, transparent), transparent 70%),
+    var(--paper); }
+:root[data-theme="night"] .sky { background:
+    radial-gradient(38% 30% at 14% 18%, color-mix(in srgb, var(--wash-1) 22%, transparent), transparent 70%),
+    radial-gradient(34% 28% at 82% 14%, color-mix(in srgb, var(--wash-3) 24%, transparent), transparent 70%),
+    radial-gradient(40% 34% at 60% 58%, color-mix(in srgb, var(--wash-5) 18%, transparent), transparent 72%),
+    radial-gradient(36% 30% at 12% 82%, color-mix(in srgb, var(--wash-4) 20%, transparent), transparent 70%),
+    var(--paper); }
+.sky canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.grain { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: .3; mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .08 0 0 0 0 .12 1.25 0 0 0 -.52'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); }
+:root[data-theme="night"] .grain { mix-blend-mode: screen; opacity: .12; }
+
+.page { position: relative; z-index: 2; min-height: 100dvh; display: flex; flex-direction: column; }
+.wrap { width: 100%; max-width: 1240px; margin: 0 auto;
+  padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
+@media (min-width: 760px) { .wrap { padding-left: max(32px, env(safe-area-inset-left)); padding-right: max(32px, env(safe-area-inset-right)); } }
+
+/* ═══════════ type ═══════════ */
+h1, h2, h3 { text-wrap: balance; margin: 0; overflow-wrap: break-word; }
+.nm { overflow-wrap: anywhere; }
+p { text-wrap: pretty; }
+.eyebrow { font: 600 11.5px/1.3 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin: 0; }
+.h-sec { font: 800 clamp(38px, 9vw, 84px)/.95 var(--display); letter-spacing: -.035em; margin: 10px 0 0; }
+.lead { font-size: clamp(16.5px, 2.2vw, 19px); line-height: 1.55; color: var(--ink-2); max-width: 56ch; margin: 16px 0 0; }
+.mono-s { font: 500 12px var(--mono); color: var(--muted); }
+
+/* the brush-stroke highlight behind one word */
+:root { --brush: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 400 100' preserveAspectRatio='none'%3E%3Cfilter id='r'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.03 .2' numOctaves='3' seed='7'/%3E%3CfeDisplacementMap in='SourceGraphic' scale='18'/%3E%3C/filter%3E%3Cpath filter='url(%23r)' d='M16 60C42 34 120 26 200 28S352 18 384 40C396 54 380 72 336 76S182 86 92 84S8 80 16 60Z'/%3E%3C/svg%3E"); }
+.swash { position: relative; isolation: isolate; white-space: nowrap; }
+.swash::before { content: ""; position: absolute; z-index: -1; inset: .22em -.16em .02em -.12em; transform: rotate(-2.5deg); transform-origin: left center;
+  background: linear-gradient(100deg, var(--pg-honey), var(--pg-pink) 70%, var(--pg-lilac));
+  -webkit-mask: var(--brush) center / 100% 100% no-repeat; mask: var(--brush) center / 100% 100% no-repeat;
+  animation: brush 1.4s var(--ease) .5s backwards; }
+:root[data-theme="night"] .swash::before { background: linear-gradient(100deg, #6a4cff, #ff4f8b 70%, #ffb547); opacity: .85; }
+@keyframes brush { from { transform: rotate(-2.5deg) scaleX(.2); } to { transform: rotate(-2.5deg) scaleX(1); } }
+
+/* ═══════════ surfaces, pills, chips, buttons ═══════════ */
+.sheet { background: var(--sheet); border: 1px solid var(--rule); border-radius: 22px; box-shadow: var(--lift); min-width: 0; }
+.pill { display: inline-flex; align-items: center; gap: 6px; font: 600 11px/1 var(--mono); letter-spacing: .05em; border-radius: 999px; padding: 5px 9px; white-space: nowrap; width: max-content; }
+.p-live { background: var(--live-soft); color: var(--live); }
+.p-building { background: var(--build-soft); color: var(--build); }
+.p-idea { background: var(--idea-soft); color: var(--muted); }
+.dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; flex: none; }
+.dot.live { background: var(--live); animation: ping 2.6s infinite; }
+@keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--live) 55%, transparent); } 70%, 100% { box-shadow: 0 0 0 9px transparent; } }
+.chip { display: inline-flex; align-items: center; gap: 6px; font: 500 12px/1.2 var(--mono); border-radius: 7px; padding: 4px 8px; color: var(--ink-2); background: color-mix(in srgb, var(--sheet) 70%, transparent); box-shadow: inset 0 0 0 1px var(--line); white-space: nowrap; }
+
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; font: 700 16px/1 var(--body); letter-spacing: -.005em;
+  background: var(--ink); color: var(--paper); border: 0; border-radius: 999px; padding: 0 24px; text-decoration: none; cursor: pointer;
+  box-shadow: 0 16px 30px -16px var(--shade); transition: transform .3s var(--spring), background .25s, color .25s; -webkit-tap-highlight-color: transparent; }
+.btn:hover { background: var(--accent); color: var(--accent-ink); transform: translateY(-2px); }
+.btn:active { transform: scale(.97); }
+.btn .arr { transition: transform .35s var(--spring); }
+.btn:hover .arr { transform: translateX(4px) rotate(-8deg); }
+.btn-ghost { background: color-mix(in srgb, var(--sheet) 70%, transparent); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--line-2); backdrop-filter: blur(8px); }
+.btn-ghost:hover { background: var(--sheet); color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+.more { font: 600 14.5px var(--body); color: var(--ink); text-decoration: none; border-bottom: 1.5px solid var(--accent); padding-bottom: 1px; }
+.more:hover { color: var(--accent); }
+
+/* ═══════════ emblems ═══════════ */
+.emb { display: block; flex: none; overflow: visible; }
+.emb .wash { fill: var(--pg); }
+.emb .cl { fill: none; stroke: var(--ink); stroke-opacity: .42; stroke-width: .8; }
+.emb .dash { stroke-dasharray: 2.2 2.4; }
+.emb .pl { fill: var(--sheet); stroke: var(--ink); stroke-opacity: .5; stroke-width: .8; }
+.emb .snd { stroke: var(--ink); stroke-opacity: .5; stroke-width: .8; stroke-linecap: round; }
+.emb .ic { fill: none; stroke: var(--ink); stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.emb .ic .f { fill: var(--sheet); }
+.emb .ic .k { fill: var(--ink); stroke: none; }
+.emb.e-idea .ic { stroke: var(--muted); }
+.emb.e-idea .ic .k { fill: var(--muted); }
+.emb.e-idea .cl { stroke: var(--idea); stroke-opacity: .9; }
+
+/* ═══════════ boat + compass (shared drawings) ═══════════ */
+.boat { overflow: visible; }
+.boat .sail { fill: color-mix(in srgb, var(--accent) 18%, var(--sheet)); stroke: var(--ink); stroke-width: 1.4; stroke-linejoin: round; }
+.boat .hull { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.4; stroke-linejoin: round; }
+.boat .fold { fill: none; stroke: var(--ink); stroke-width: 1; stroke-opacity: .55; }
+.boat .wv { fill: none; stroke: var(--accent); stroke-width: 1.4; stroke-linecap: round; }
+.rock { animation: rock 3.4s ease-in-out infinite; transform-origin: 50% 90%; transform-box: fill-box; }
+@keyframes rock { 0%, 100% { transform: translateY(0) rotate(-4deg); } 50% { transform: translateY(-3px) rotate(4deg); } }
+.compass .cp-o { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.2; }
+.compass .cp-i { fill: none; stroke: var(--line-2); stroke-dasharray: 1 3; }
+.compass .cp-t line { stroke: var(--ink); stroke-width: 1; stroke-opacity: .55; }
+.compass .cp-l { font: 600 8px var(--mono); fill: var(--muted); }
+.compass .needle { transform: rotate(var(--na, 38deg)); transition: transform 1.1s var(--spring); }
+.compass .swing { animation: swing 5s ease-in-out infinite alternate; }
+@keyframes swing { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+.compass .nd-n { fill: var(--accent); } .compass .nd-s { fill: var(--ink); } .compass .nd-c { fill: var(--sheet); stroke: var(--ink); stroke-width: 1.2; }
+
+/* ═══════════ reveal on scroll ═══════════
+   Hidden only once JS is known to run (html.js), and revealed with a data
+   attribute React never touches, so re-renders can't hide things again. */
+.rv { transition: opacity .9s var(--ease), transform 1.1s var(--ease); transition-delay: calc(var(--rv, 0) * 80ms); }
+.js .rv:not([data-in]) { opacity: 0; transform: translateY(28px); }
+.js.no-reveal .rv { opacity: 1; transform: none; }
+
+/* ═══════════ motion off: toggle or OS setting ═══════════ */
+:root[data-motion="off"] *, :root[data-motion="off"] *::before, :root[data-motion="off"] *::after {
+  animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
+:root[data-motion="off"] .rv { opacity: 1 !important; transform: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  :root:not([data-motion="on"]) *, :root:not([data-motion="on"]) *::before, :root:not([data-motion="on"]) *::after {
+    animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+  :root:not([data-motion="on"]) .rv { opacity: 1 !important; transform: none !important; }
+}

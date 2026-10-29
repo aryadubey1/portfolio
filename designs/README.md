@@ -13,7 +13,8 @@ database and deploy setup are shared by all designs.
 | [atlas-v1](atlas-v1/) | 2026-10-28 | Watercolour sea, project islands, boat lane | Personal portfolio |
 | [atlas-v2-services](atlas-v2-services/) | 2026-10-29 (never live) | Atlas + a whale that swims with scroll | Offering services |
 | [services-wording](services-wording/) | 2026-10-29 | Atlas with services wording, whale removed | Offering services |
-| atlas-device-scenes **(live)** | 2026-10-29 → | Atlas + pinned laptop/phone scenes of live work, scrubbed by scroll | Offering services |
+| [atlas-device-scenes](atlas-device-scenes/) | 2026-10-29 | Atlas + pinned laptop/phone scenes of live work, scrubbed by scroll (CMS cover images) | Offering services |
+| scenes-sample-data **(live)** | 2026-10-29 → | Same scenes, with real desktop + phone screenshots of the apps full of sample data (`public/scenes/`) | Offering services |
 
 Every design is also a git tag (`design/<name>`) on its last commit.
 

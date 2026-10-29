@@ -22,12 +22,18 @@ const host = (p: Island) => {
   }
 }
 
-function Shots({ items, w, pos }: { items: Island[]; w: number; pos: string }) {
+/* Real screenshots of the apps filled with sample data (public/scenes/<slug>-desktop|phone.webp);
+   any other project falls back to its CMS cover. */
+const SHOTS = new Set(['invoicehub', 'gymhub', 'fitforge', 'lumiere'])
+const shot = (p: Island, kind: 'desktop' | 'phone', w: number) =>
+  SHOTS.has(p.slug) ? `/scenes/${p.slug}-${kind}.webp` : sized(p.cover!, w)
+
+function Shots({ items, kind, w, pos }: { items: Island[]; kind: 'desktop' | 'phone'; w: number; pos: string }) {
   return (
     <>
       {items.map((p, k) => (
         // eslint-disable-next-line @next/next/no-img-element
-        <img key={p.slug} className="sc-shot" data-k={k} src={sized(p.cover!, w)} alt="" loading="lazy" decoding="async" style={{ objectPosition: pos }} />
+        <img key={p.slug} className="sc-shot" data-k={k} src={shot(p, kind, w)} alt="" loading="lazy" decoding="async" style={{ objectPosition: pos }} />
       ))}
     </>
   )
@@ -117,10 +123,10 @@ export function Scenes({ islands }: { islands: Island[] }) {
             ))}
             <div className="sc-laptop">
               <div className="sc-bar"><i /><i /><i /><span className="sc-url" data-hosts={items.map(host).join(' ')}>{host(items[0])}</span></div>
-              <div className="sc-screen"><Shots items={items} w={1300} pos="center top" /></div>
+              <div className="sc-screen"><Shots items={items} kind="desktop" w={1300} pos="center top" /></div>
             </div>
             <div className="sc-phone">
-              <div className="sc-screen"><Shots items={items} w={600} pos="center top" /></div>
+              <div className="sc-screen"><Shots items={items} kind="phone" w={600} pos="center top" /></div>
             </div>
           </div>
 

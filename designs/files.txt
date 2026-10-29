@@ -1,0 +1,8 @@
+# The files that make up a design (relative to the repo root).
+# Everything else (CMS collections, database, deploy) stays the same across designs.
+src/app/(frontend)
+src/app/icon.svg
+src/components
+src/lib/atlas.ts
+src/lib/content.ts
+src/lib/data.ts

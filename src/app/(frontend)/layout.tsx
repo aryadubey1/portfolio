@@ -3,6 +3,7 @@ import { Syne, Figtree, JetBrains_Mono } from 'next/font/google'
 import React from 'react'
 import { Sky } from '@/components/Sky'
 import { Atmosphere } from '@/components/Atmosphere'
+import { Whale } from '@/components/Whale'
 import { Chrome } from '@/components/Chrome'
 import { Footer } from '@/components/Footer'
 import { PREFS_SCRIPT } from '@/components/Prefs'
@@ -18,9 +19,9 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://aryadubey.tech'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: 'Arya Dubey: bring the idea, leave with the finished thing', template: '%s · Arya Dubey' },
+  title: { default: 'Arya Dubey: websites, apps and automations, built and launched', template: '%s · Arya Dubey' },
   description:
-    'Arya Dubey designs, builds and launches whatever an idea needs: websites, apps, tools and automations, from first sketch to live. Explore the map and get a quote.',
+    'Websites, web and mobile apps, dashboards and automations for businesses and founders. Designed, built, launched and looked after. See live work and get a quote.',
   applicationName: 'aryadubey.tech',
   authors: [{ name: 'Arya Dubey', url: SITE_URL }],
   openGraph: { type: 'website', siteName: 'Arya Dubey', url: SITE_URL },
@@ -48,6 +49,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <a className="skip" href="#main">Skip to content</a>
         <Sky />
+        <Whale />
         <div className="grain" aria-hidden="true" />
         <Atmosphere />
         <div className="page">

@@ -16,9 +16,9 @@ export function Footer({ socials }: { socials: { label: string; url: string }[] 
         <div className="foot-edge rv">
           <Boat size={56} className="rock" />
           <p className="foot-big">
-            The map keeps <span className="swash">growing.</span>
+            Have an idea? Let’s <span className="swash">launch</span> it.
           </p>
-          <p className="foot-sub">Every island here started as somebody’s idea. Yours could be the next one.</p>
+          <p className="foot-sub">Everything here started as somebody’s rough idea. Yours could be next.</p>
           <Link href="/#quote" className="btn">Get a quote</Link>
         </div>
         <div className="foot-row">

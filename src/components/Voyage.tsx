@@ -170,9 +170,9 @@ export function Voyage({ islands }: { islands: MapIsland[] }) {
     <section id="map" className="map" aria-labelledby="map-h">
       <div className="wrap">
         <header className="map-head rv">
-          <p className="eyebrow">The map so far</p>
-          <h2 id="map-h" className="h-sec">Islands I’ve charted.</h2>
-          <p className="lead">Every island is something I designed, built and shipped. Tap one to land on it.</p>
+          <p className="eyebrow">Live work</p>
+          <h2 id="map-h" className="h-sec">Shipped and running.</h2>
+          <p className="lead">Real products, live and in daily use. Tap one to see how it was made.</p>
         </header>
 
         <div className="sea" ref={sea}>
@@ -207,7 +207,7 @@ export function Voyage({ islands }: { islands: MapIsland[] }) {
                         <span className="pill p-idea">uncharted</span>
                       </span>
                     </span>
-                    <span className="about">This spot on the map is free. Tell me what you’d like to build and it becomes the next island.</span>
+                    <span className="about">This spot is free. Describe what you need and it becomes the next thing launched.</span>
                     <span className="isle-go">
                       Chart it <Glyph d={G.arrow} size={16} />
                     </span>

@@ -3,10 +3,10 @@
    Rule for every line here: nothing may sound limiting. */
 
 export const SITE_DEFAULTS = {
-  heroEyebrow: "Arya Dubey · an atlas of things I've built",
-  heroLines: ['Bring the idea.', 'Leave with the', '*finished* thing.'],
+  heroEyebrow: 'Websites · Apps · Automations',
+  heroLines: ['Your idea,', '*built* and', 'brought to life.'],
   heroIntro:
-    "I design, build and launch whatever an idea needs, from the first rough sketch to the live thing people use. Then I stay around to look after it. Here's the map so far.",
+    'Websites, web and mobile apps, dashboards and automations for businesses and founders. Designed, built, launched and looked after, with one point of contact from the first call to launch day and after.',
   makes: [
     { label: 'Websites', icon: 'globe' },
     { label: 'Web apps', icon: 'layers' },

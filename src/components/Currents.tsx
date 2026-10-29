@@ -18,9 +18,9 @@ export function Currents({ makes }: { makes: { label: string; icon?: string | nu
   return (
     <section id="currents" className="currents" aria-labelledby="cur-h">
       <div className="wrap cur-head rv">
-        <p className="eyebrow">Currents</p>
+        <p className="eyebrow">Services</p>
         <h2 id="cur-h" className="h-sec">Whatever the idea needs.</h2>
-        <p className="lead">A few of the things that drift through here. The list never closes.</p>
+        <p className="lead">Pick one or combine a few. If it runs on a screen, it can be built.</p>
       </div>
       <ul className="sr">
         {makes.map((m) => (

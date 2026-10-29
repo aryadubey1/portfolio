@@ -54,7 +54,7 @@ export function Hero({ eyebrow, lines, intro, stats }: Props) {
           <Link href="/#quote" className="btn">
             Get a quote <span className="arr"><Glyph d={G.arrow} size={18} /></span>
           </Link>
-          <Link href="/#map" className="btn btn-ghost">Explore the map</Link>
+          <Link href="/#map" className="btn btn-ghost">See live work</Link>
         </div>
       </div>
 
@@ -63,11 +63,11 @@ export function Hero({ eyebrow, lines, intro, stats }: Props) {
           <Compass id="needle" />
           <div>
             <p className="c-title">aryadubey.tech</p>
-            <p className="c-sub">an atlas · charted by hand</p>
+            <p className="c-sub">design · build · launch · care</p>
           </div>
         </div>
         <dl className="soundings">
-          <div><dt>islands</dt><dd>{stats.islands}</dd></div>
+          <div><dt>shipped</dt><dd>{stats.islands}</dd></div>
           <div><dt>live now</dt><dd>{stats.live}</dd></div>
           <div><dt>tools used</dt><dd>{stats.tools}</dd></div>
           <div><dt>uncharted</dt><dd>∞</dd></div>

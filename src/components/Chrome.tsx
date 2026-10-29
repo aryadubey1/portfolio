@@ -7,8 +7,8 @@ import { Compass, G, Glyph } from './Drawings'
 import { Prefs } from './Prefs'
 
 const LINKS = [
-  { href: '/#map', label: 'The map', sub: 'Islands I’ve charted' },
-  { href: '/#currents', label: 'What I make', sub: 'Whatever the idea needs' },
+  { href: '/#map', label: 'Work', sub: 'Live, shipped products' },
+  { href: '/#currents', label: 'Services', sub: 'Whatever the idea needs' },
   { href: '/#voyage', label: 'How it goes', sub: 'From idea to live' },
   { href: '/#questions', label: 'Questions', sub: 'Ask away' },
 ]

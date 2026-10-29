@@ -48,8 +48,21 @@ if (faqs.totalDocs === 0) {
   log(`${FAQ_DEFAULTS.length} questions added`)
 }
 
+/* hero words from the first launch: swap them for the current defaults unless they were edited in /admin */
+const FIRST_HERO = { eyebrow: "Arya Dubey · an atlas of things I've built", lines: 'Bring the idea.|Leave with the|*finished* thing.' }
+
 const site = await payload.findGlobal({ slug: 'site' })
-if (!site.heroLines?.length) {
+if (site.heroEyebrow === FIRST_HERO.eyebrow && (site.heroLines || []).map((l) => l.line).join('|') === FIRST_HERO.lines) {
+  await payload.updateGlobal({
+    slug: 'site',
+    data: {
+      heroEyebrow: SITE_DEFAULTS.heroEyebrow,
+      heroLines: SITE_DEFAULTS.heroLines.map((line) => ({ line })),
+      heroIntro: SITE_DEFAULTS.heroIntro,
+    },
+  })
+  log('hero words updated')
+} else if (!site.heroLines?.length) {
   await payload.updateGlobal({
     slug: 'site',
     data: {

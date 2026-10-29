@@ -108,6 +108,20 @@ button { font: inherit; color: inherit; }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='260'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .08 0 0 0 0 .08 0 0 0 0 .12 1.25 0 0 0 -.52'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E"); }
 :root[data-theme="night"] .grain { mix-blend-mode: screen; opacity: .12; }
 
+/* ═══════════ the whale (swims under the page, scrubbed by scroll) ═══════════ */
+.whale { position: fixed; left: 0; top: 0; z-index: 1; pointer-events: none; opacity: 0; will-change: transform, opacity; transition: opacity .8s var(--ease); width: 320px; }
+.whale:not([data-on]) { opacity: 0 !important; }
+.whale svg { display: block; width: 100%; height: auto; overflow: visible; }
+.whale .wh-skin { fill: color-mix(in srgb, var(--wash-3) 55%, var(--sheet)); stroke: var(--ink); stroke-width: 1.6; stroke-linejoin: round; }
+.whale .wh-belly { fill: none; stroke: var(--ink); stroke-width: 1; stroke-opacity: .4; stroke-linecap: round; }
+.whale .wh-eye { fill: var(--ink); }
+.whale .wh-spout { fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; opacity: .7; }
+.whale .wh-tail { transform-origin: 58px 80px; animation: fluke 2.8s ease-in-out infinite; }
+.whale .wh-fin { transform-origin: 176px 104px; animation: fin 2.8s ease-in-out infinite; }
+@keyframes fluke { 0%, 100% { transform: rotate(-9deg); } 50% { transform: rotate(9deg); } }
+@keyframes fin { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(8deg); } }
+:root[data-theme="night"] .whale .wh-skin { fill: color-mix(in srgb, var(--wash-3) 28%, var(--sheet)); }
+
 .page { position: relative; z-index: 2; min-height: 100dvh; display: flex; flex-direction: column; }
 .wrap { width: 100%; max-width: 1240px; margin: 0 auto;
   padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }

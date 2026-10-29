@@ -3,7 +3,6 @@ import { Syne, Figtree, JetBrains_Mono } from 'next/font/google'
 import React from 'react'
 import { Sky } from '@/components/Sky'
 import { Atmosphere } from '@/components/Atmosphere'
-import { Whale } from '@/components/Whale'
 import { Chrome } from '@/components/Chrome'
 import { Footer } from '@/components/Footer'
 import { PREFS_SCRIPT } from '@/components/Prefs'
@@ -49,7 +48,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <body>
         <a className="skip" href="#main">Skip to content</a>
         <Sky />
-        <Whale />
         <div className="grain" aria-hidden="true" />
         <Atmosphere />
         <div className="page">
